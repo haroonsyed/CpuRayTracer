@@ -1,7 +1,8 @@
 #include "camera.h"
 
-Camera::Camera(Vector* v) {
-    this->vec = v;
+Camera::Camera(Point* cameraLoc, Vector* v) {
+    this->cameraLoc = cameraLoc;
+    this->cameraVec = v;
 }
 
 Camera::~Camera() {
@@ -14,18 +15,27 @@ Camera::~Camera() {
 unsigned char* Camera::renderImage() {
 
     // Create the image (RGB Array) to be displayed
-    image = new unsigned char[width * height * 3];
+    image = new unsigned char[widthPix * heightPix * 3];
+    // Figure out real world increments for screen based on number of pixels
+    double heightInc = height / heightPix;
+    double widthInc = width / widthPix;
+    // Determine the screen origin
+    Point sOrigin =  f_len * (*cameraVec) + (*cameraLoc);
+    sOrigin.print();
     
-    for (int i = 0; i < height; i++)
+    for (int i = 0; i < heightPix; i++)
     {
-        for (int j = 0; j < width; j++)
+        for (int j = 0; j < widthPix; j++)
         {
 
-            int idx = (i * width + j) * 3;
+            int idx = (i * widthPix + j) * 3;
 
             if (mode == MODE::ORTHOGRAPHIC) {
+
+                //Generate a ray facing normal to camera screen at pixel point
                 
-                image[idx] = (unsigned char)(255 * i * j / height / width); //((i+j) % 2) * 255;
+                
+                image[idx] = (unsigned char)(255 * i * j / heightPix / widthPix); //((i+j) % 2) * 255;
                 image[idx + 1] = 0;
                 image[idx + 2] = 0;
 

@@ -139,13 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\math\Point.cpp" />
+    <ClCompile Include="src\ray.cpp" />
+    <ClCompile Include="src\math\point.cpp" />
     <ClCompile Include="src\math\vector.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\math\Point.h" />
+    <ClInclude Include="src\ray.h" />
+    <ClInclude Include="src\math\point.h" />
     <ClInclude Include="src\math\vector.h" />
     <ClInclude Include="src\camera.h" />
   </ItemGroup>

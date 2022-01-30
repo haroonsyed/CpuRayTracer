@@ -163,10 +163,9 @@ int main()
     const int height = 128; // keep it in powers of 2!
 
     //Create a camera to render from
-    Point* camOrigin = new Point(0,0,0);
-    Point* camNorm = new Point(1,0,0);
-    Vector* camVec = new Vector(camOrigin,camNorm); //At origin face toward positive x
-    Camera camera(camVec);
+    Point* camOrigin = new Point(0,5,0);
+    Vector* camVec = new Vector(1,0,0); //At origin face toward positive x
+    Camera camera(camOrigin, camVec);
     unsigned char* data = camera.renderImage();
 
     if (data)
