@@ -12,8 +12,11 @@ public:
 	Vector(Point* p1, Point* p2);
 	Vector(double xCom, double yCom, double zCom);
 	Vector(const Vector& old);
+	Vector cross(const Vector&);
+	double dot(const Vector&);
 	double magnitude();
 	void normalize();
+	Vector getPerpendicular();
 	Vector operator+(const Vector&);
 	Vector operator-(const Vector&);
 	Vector operator*(double);

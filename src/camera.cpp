@@ -2,7 +2,7 @@
 
 Camera::Camera(Point* cameraLoc, Vector* v) {
     this->cameraLoc = cameraLoc;
-    this->cameraVec = v;
+    this->viewDirection = v;
 }
 
 Camera::~Camera() {
@@ -20,8 +20,16 @@ unsigned char* Camera::renderImage() {
     double heightInc = height / heightPix;
     double widthInc = width / widthPix;
     // Determine the screen origin
-    Point sOrigin =  f_len * (*cameraVec) + (*cameraLoc);
+    viewDirection->print();
+    Point sOrigin =  f_len * (*viewDirection) + (*cameraLoc);
     sOrigin.print();
+    //Determine screen plane
+    Vector w = *viewDirection;
+    Vector u = ((*up).cross(w)) / (((*up).cross(w)).magnitude());
+    Vector v = w.cross(u);
+    w.print();
+    u.print();
+    v.print();
     
     for (int i = 0; i < heightPix; i++)
     {

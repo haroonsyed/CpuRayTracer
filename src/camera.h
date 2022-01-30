@@ -19,8 +19,8 @@ private:
 	MODE mode = MODE::ORTHOGRAPHIC;
 
 	Point* cameraLoc = nullptr;
-	Vector* cameraVec = nullptr;
-
+	Vector* viewDirection = nullptr;
+	Vector* up = new Vector(0,0,1); //Default to 0,0,1
 
 
 public:

@@ -20,6 +20,18 @@ Vector::Vector(const Vector& old) {
 	zCom = old.zCom;
 }
 
+Vector Vector::cross(const Vector& vec) {
+	return Vector(
+		yCom * vec.zCom - zCom * vec.yCom,
+		zCom * vec.xCom - xCom * vec.zCom,
+		xCom * vec.yCom - yCom * vec.xCom
+	);
+}
+
+double Vector::dot(const Vector& vec) {
+	return xCom * vec.xCom + yCom * vec.yCom + zCom * vec.zCom;
+}
+
 double Vector::magnitude() {
 	return std::sqrt(xCom * xCom + yCom * yCom + zCom * zCom);
 }
@@ -31,36 +43,56 @@ void Vector::normalize() {
 	zCom /= mag;
 }
 
+Vector Vector::getPerpendicular() {
+	int minPos = xCom < yCom ? (xCom < zCom ? xCom : zCom) : (yCom < zCom ? yCom : zCom); //Corresponds to x,y,z as 0,1,2. Faster than floating with epsilon
+	Vector t(0, 0, 0);
+	if (minPos == 0) {
+		 t=Vector(1,yCom,zCom);
+	}
+	else if (minPos == 1) {
+		t = Vector(xCom, 1, zCom);
+	}
+	else {
+		t = Vector(xCom, yCom, 1);
+	}
+	Vector temp = (t.cross(*this)) / t.magnitude();
+	return temp / temp.magnitude();
+}
+
 //Adds the components of the vectors together.
 Vector Vector::operator+(const Vector& vec) {
-	this->xCom = this->xCom + vec.xCom;
-	this->yCom = this->yCom + vec.yCom;
-	this->zCom = this->zCom + vec.zCom;
-	return *(this);
+	return Vector(
+		xCom + vec.xCom,
+		yCom + vec.yCom,
+		zCom + vec.zCom
+	);
 }
 
 //Subtracts the components of the vectors together.
 Vector Vector::operator-(const Vector& vec) {
-	this->xCom = this->xCom - vec.xCom;
-	this->yCom = this->yCom - vec.yCom;
-	this->zCom = this->zCom - vec.zCom;
-	return *(this);
+	return Vector(
+		xCom - vec.xCom,
+		yCom - vec.yCom,
+		zCom - vec.zCom
+	);
 }
 
 //Multiply a vector by a scaler value
 Vector Vector::operator*(double scale) {
-	this->xCom = this->xCom * scale;
-	this->yCom = this->yCom * scale;
-	this->zCom = this->zCom * scale;
-	return *(this);
+	return Vector(
+		xCom * scale,
+		yCom * scale,
+		zCom * scale
+	);
 }
 
 //Divide a vector by a scaler value
 Vector Vector::operator/(double scale) {
-	this->xCom = this->xCom / scale;
-	this->yCom = this->yCom / scale;
-	this->zCom = this->zCom / scale;
-	return *(this);
+	return Vector(
+		xCom / scale,
+		yCom / scale,
+		zCom / scale
+	);
 }
 
 void Vector::print() {
