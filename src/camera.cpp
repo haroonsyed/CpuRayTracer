@@ -24,9 +24,10 @@ unsigned char* Camera::renderImage() {
     Point sOrigin =  f_len * (*viewDirection) + (*cameraLoc);
     sOrigin.print();
     //Determine screen plane
-    Vector w = *viewDirection;
+    Vector w = -1*(* viewDirection);
     Vector u = ((*up).cross(w)) / (((*up).cross(w)).magnitude());
     Vector v = w.cross(u);
+
     w.print();
     u.print();
     v.print();
@@ -42,6 +43,7 @@ unsigned char* Camera::renderImage() {
 
                 //Generate a ray facing normal to camera screen at pixel point
                 
+
                 
                 image[idx] = (unsigned char)(255 * i * j / heightPix / widthPix); //((i+j) % 2) * 255;
                 image[idx + 1] = 0;

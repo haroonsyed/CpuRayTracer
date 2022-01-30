@@ -44,7 +44,7 @@ void Vector::normalize() {
 }
 
 Vector Vector::getPerpendicular() {
-	int minPos = xCom < yCom ? (xCom < zCom ? xCom : zCom) : (yCom < zCom ? yCom : zCom); //Corresponds to x,y,z as 0,1,2. Faster than floating with epsilon
+	int minPos = xCom < yCom ? (xCom < zCom ? 0 : 2) : (yCom < zCom ? 1 : 2); //Corresponds to x,y,z as 0,1,2. Faster than floating with epsilon
 	Vector t(0, 0, 0);
 	if (minPos == 0) {
 		 t=Vector(1,yCom,zCom);
@@ -95,6 +95,15 @@ Vector Vector::operator/(double scale) {
 	);
 }
 
+Point Vector::operator*(const Point& point) {
+	return Point(
+		xCom*point.x,
+		yCom*point.y,
+		zCom*point.z
+	);
+}
+
+
 void Vector::print() {
 	std::cout << xCom << " " << yCom << " " << zCom << std::endl;
 }
@@ -107,14 +116,27 @@ Point Vector::operator+(const Point& point) {
 	);
 }
 
+Point Vector::operator-(const Point& point) {
+	return Point(
+		point.x - xCom,
+		point.y - yCom,
+		point.z - zCom
+	);
+}
+
 //FOR COMMUTATIVITY
 Vector operator*(double scale, Vector& vec) {
-	return vec*scale;
+	return vec * scale;
 }
 Vector operator/(double scale, Vector& vec) {
-	return vec/scale;
+	return vec / scale;
 }
 Point operator+(Point& point, Vector& vec) {
 	return vec + point;
 }
-
+Point operator-(Point& point, Vector& vec) {
+	return vec - point; // This is confusing, but points should only be subtracting vectors. But operator overloading got messy
+}
+Point operator*(Point& point, Vector& vec) {
+	return vec * point;
+}

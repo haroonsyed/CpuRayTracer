@@ -22,10 +22,15 @@ public:
 	Vector operator*(double);
 	Vector operator/(double);
 	Point operator+(const Point&);
+	Point operator-(const Point&);
+	Point operator*(const Point&);
 	void print();
 };
 
 Vector operator*(double scale, Vector& vec);
 Vector operator/(double scale, Vector& vec);
 Point operator+(Point& point, Vector& vec);
+Point operator-(Point& point, Vector& vec);
+Point operator*(Point& point, Vector& vec);
+
 
