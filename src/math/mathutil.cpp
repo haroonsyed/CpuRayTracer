@@ -1,4 +1,4 @@
-#include "MathUtil.h"
+#include "mathutil.h"
 #include <math.h>
 
 bool aboutEquals(double n1, double n2) {
