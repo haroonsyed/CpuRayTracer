@@ -39,7 +39,13 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "   FragColor = texture(texture1, TexCoord);\n"
 "}\n\0";
 
-
+//Uses pre-processor to avoid main conflict when in test mode
+#define RUN_TESTS false //CHANGE THIS LINE TO RUN TESTS
+#if(RUN_TESTS)
+#define CATCH_CONFIG_MAIN  // This tells Catch2 to provide a main()
+#include <catch2/catch.hpp>
+#include "../tests/tests.h" //Include tests
+#else
 int main()
 {
     // glfw: initialize and configure
@@ -218,6 +224,8 @@ int main()
     glfwTerminate();
     return 0;
 }
+
+#endif
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
