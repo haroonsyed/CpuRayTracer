@@ -40,8 +40,7 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "}\n\0";
 
 //Uses pre-processor to avoid main conflict when in test mode
-#define RUN_TESTS false //CHANGE THIS LINE TO RUN TESTS
-#if(RUN_TESTS)
+#ifdef RUN_TESTS 
 #define CATCH_CONFIG_MAIN  // This tells Catch2 to provide a main()
 #include <catch2/catch.hpp>
 #include "../tests/tests.h" //Include tests
