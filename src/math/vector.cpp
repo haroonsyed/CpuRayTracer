@@ -1,4 +1,5 @@
 #include "vector.h"
+#include <math.h>
 
 Vector::Vector(Point* p1, Point* p2) {
 	this->xCom = p2->x - p1->x;
