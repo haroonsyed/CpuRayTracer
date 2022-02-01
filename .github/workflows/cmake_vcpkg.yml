@@ -21,7 +21,8 @@ jobs:
       run: |
         cd ${{ github.workspace }}
         cd build
-        cmake .. -D RUN_TESTS=ON
+        cmake .. -DRUN_TESTS=ON
+        make
 
     - name: Run tests
       run: |

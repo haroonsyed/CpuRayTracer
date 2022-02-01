@@ -5,6 +5,7 @@ IF(UNIX)
 execute_process(COMMAND ../vcpkg/bootstrap-vcpkg.sh -disableMetrics)
 #Install the required libraries with vcpkg
 execute_process(COMMAND ../vcpkg/vcpkg install glew:x64-linux glfw3:x64-linux catch2:x64-linux)
+execute_process(COMMAND sudo apt install libxmu-dev libxi-dev libgl-dev xinerma xcursor xorg libglu1-mesa)
 message("Running on Linux")
 ELSE()
 execute_process(COMMAND cmd /c "cd .. && .\\vcpkg\\bootstrap-vcpkg.bat -disableMetrics")
