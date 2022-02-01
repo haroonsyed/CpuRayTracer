@@ -1,7 +1,7 @@
 #pragma once
 #include <catch2/catch.hpp>
 #include "../src/math/point.h"
-#include "../src/math/MathUtil.h"
+#include "../src/math/mathutil.h"
 
 TEST_CASE("Adding Points") {
 	//Be careful of floating point precision!
