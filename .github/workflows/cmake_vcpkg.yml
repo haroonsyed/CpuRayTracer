@@ -1,0 +1,29 @@
+name: CI
+# Workflow file for windows
+#Credit for the outline of this workflow goes to Iqra Ali at Code Project: https://www.codeproject.com/Articles/5265628/Writing-CI-Pipeline-using-GitHub-Actions-to-Build
+on:
+  push:
+    branches: [master]
+  pull_request: 
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Getting submodule
+      uses: actions/checkout@v2
+      with:
+          submodules: recursive
+
+    - name: Running cmake
+      run: |
+        cd ${{ github.workspace }}
+        cd build
+        cmake .. -D RUN_TESTS=ON
+
+    - name: Run tests
+      run: |
+        cd build
+        ./main
