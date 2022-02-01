@@ -18,6 +18,6 @@ TEST_CASE("Adding Points") {
 	p2 = Point(2, 4.8, 5);
 	result = p1 + p2;
 	REQUIRE(aboutEquals(result.x, 3.5));
-	REQUIRE(aboutEquals(result.x, 9.8));
+	REQUIRE(aboutEquals(result.y, 9.8));
 	REQUIRE(aboutEquals(result.z, 12));
 }

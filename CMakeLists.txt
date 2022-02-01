@@ -16,6 +16,13 @@ set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cm
 message(TOOLCHAIN FILE:)
 message(${CMAKE_TOOLCHAIN_FILE})
 
+#Decide to run in test mode
+OPTION(RUN_TESTS "Run unit tests" OFF)
+IF(RUN_TESTS)
+    message("Running With Unit Tests...")
+    ADD_DEFINITIONS(-DRUN_TESTS)
+ENDIF()
+
 project(main)
 file(GLOB_RECURSE SRC
     "src/*.h"
