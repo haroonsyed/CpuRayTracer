@@ -43,7 +43,7 @@ const char* fragmentShaderSource = "#version 330 core\n"
 #ifdef RUN_TESTS 
 #define CATCH_CONFIG_MAIN  // This tells Catch2 to provide a main()
 #include <catch2/catch.hpp>
-#include "../tests/tests.h" //Include tests
+#include "tests/tests.h" //Include tests
 #else
 int main()
 {
@@ -168,8 +168,8 @@ int main()
     const int height = 128; // keep it in powers of 2!
 
     //Create a camera to render from
-    Point* camOrigin = new Point(0,5,0);
-    Vector* camVec = new Vector(1,0,0); //At origin face toward positive x
+    Point camOrigin(0,5,0);
+    Vector camVec(1,0,0); //At origin face toward positive x
     Camera camera(camOrigin, camVec);
     unsigned char* data = camera.renderImage();
 

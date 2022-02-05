@@ -1,10 +1,10 @@
 #include "vector.h"
 #include <math.h>
 
-Vector::Vector(Point* p1, Point* p2) {
-	this->xCom = p2->x - p1->x;
-	this->yCom = p2->y - p1->y;
-	this->zCom = p2->z - p1->z;
+Vector::Vector(Point& p1, Point& p2) {
+	this->xCom = p2.x - p1.x;
+	this->yCom = p2.y - p1.y;
+	this->zCom = p2.z - p1.z;
 	normalize();
 }
 

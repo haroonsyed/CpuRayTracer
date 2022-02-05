@@ -1,8 +1,8 @@
 #include "camera.h"
 
-Camera::Camera(Point* cameraLoc, Vector* v) {
+Camera::Camera(Point& cameraLoc, Vector& cameraVec) :cameraLoc{ 0,0,0 }, viewDirection{1,0,0} {
     this->cameraLoc = cameraLoc;
-    this->viewDirection = v;
+    this->viewDirection = cameraVec;
 }
 
 Camera::~Camera() {
@@ -20,12 +20,12 @@ unsigned char* Camera::renderImage() {
     double heightInc = height / heightPix;
     double widthInc = width / widthPix;
     // Determine the screen origin
-    viewDirection->print();
-    Point sOrigin =  f_len * (*viewDirection) + (*cameraLoc);
+    viewDirection.print();
+    Point sOrigin =  f_len * viewDirection + cameraLoc;
     sOrigin.print();
     //Determine screen plane
-    Vector w = -1*(* viewDirection);
-    Vector u = ((*up).cross(w)) / (((*up).cross(w)).magnitude());
+    Vector w = -1*viewDirection;
+    Vector u = (up.cross(w)) / ((up.cross(w)).magnitude());
     Vector v = w.cross(u);
 
     w.print();

@@ -18,13 +18,13 @@ private:
 
 	MODE mode = MODE::ORTHOGRAPHIC;
 
-	Point* cameraLoc = nullptr;
-	Vector* viewDirection = nullptr;
-	Vector* up = new Vector(0,0,1); //Default to 0,0,1
+	Point cameraLoc;
+	Vector viewDirection;
+	Vector up = Vector(0,0,1); //Default to 0,0,1
 
 
 public:
-	Camera(Point* cameraLoc, Vector* cameraVec);
+	Camera(Point&, Vector&);
 	~Camera();
 
 	unsigned char* renderImage();

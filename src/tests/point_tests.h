@@ -1,7 +1,7 @@
 #pragma once
 #include <catch2/catch.hpp>
-#include "../src/math/point.h"
-#include "../src/math/mathutil.h"
+#include "../math/mathutil.h"
+#include "../math/point.h"
 
 TEST_CASE("Adding Points") {
 	//Be careful of floating point precision!
@@ -54,13 +54,13 @@ TEST_CASE("Subtracting Points") {
 
 TEST_CASE("Multiply Point by scalar") {
 	Point p1(1, 1, 1);
-	Point result = 5*p1;
+	Point result = 5 * p1;
 	REQUIRE(aboutEquals(result.x, 5));
 	REQUIRE(aboutEquals(result.y, 5));
 	REQUIRE(aboutEquals(result.z, 5));
 
 	p1 = Point(1, 1, 1);
-	result = p1*5; //Reverse operator
+	result = p1 * 5; //Reverse operator
 	REQUIRE(aboutEquals(result.x, 5));
 	REQUIRE(aboutEquals(result.y, 5));
 	REQUIRE(aboutEquals(result.z, 5));
@@ -79,7 +79,7 @@ TEST_CASE("Multiply Point by scalar") {
 
 TEST_CASE("Divide Point by scalar") {
 	Point p1(1, 1, 1);
-	Point result = p1/5;
+	Point result = p1 / 5;
 	REQUIRE(aboutEquals(result.x, 0.2));
 	REQUIRE(aboutEquals(result.y, 0.2));
 	REQUIRE(aboutEquals(result.z, 0.2));
@@ -91,6 +91,8 @@ TEST_CASE("Divide Point by scalar") {
 	REQUIRE(aboutEquals(result.z, 2));
 
 	p1 = Point(1, 1, 3.5005);
-	result = p1/1.1;
+	result = p1 / 1.1;
 	REQUIRE(aboutEquals(result.z, 3.18227272));
 }
+
+

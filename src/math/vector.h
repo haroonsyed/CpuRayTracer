@@ -9,7 +9,7 @@ private:
 public:
 	double xCom, yCom, zCom;
 
-	Vector(Point* p1, Point* p2);
+	Vector(Point& p1, Point& p2);
 	Vector(double xCom, double yCom, double zCom);
 	Vector(const Vector& old);
 	Vector cross(const Vector&);
