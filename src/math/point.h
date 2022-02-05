@@ -13,3 +13,5 @@ public:
 	void print();
 };
 
+Point operator*(double scale, Point& p);
+

@@ -47,3 +47,7 @@ Point Point::operator/(double scale) {
 void Point::print() {
 	std::cout << x << " " << y << " " << z << std::endl;
 }
+
+Point operator*(double scale, Point& p) {
+	return p * scale;
+}
