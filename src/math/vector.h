@@ -19,6 +19,7 @@ public:
 	Vector getPerpendicular();
 	Vector operator+(const Vector&);
 	Vector operator-(const Vector&);
+	bool operator==(const Vector&);
 	Vector operator*(double);
 	Vector operator/(double);
 	Point operator+(const Point&);
@@ -28,7 +29,6 @@ public:
 };
 
 Vector operator*(double scale, Vector& vec);
-Vector operator/(double scale, Vector& vec);
 Point operator+(Point& point, Vector& vec);
 Point operator-(Point& point, Vector& vec);
 Point operator*(Point& point, Vector& vec);

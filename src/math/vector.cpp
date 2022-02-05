@@ -1,18 +1,17 @@
 #include "vector.h"
 #include <math.h>
+#include "mathutil.h"
 
 Vector::Vector(Point& p1, Point& p2) {
 	this->xCom = p2.x - p1.x;
 	this->yCom = p2.y - p1.y;
 	this->zCom = p2.z - p1.z;
-	normalize();
 }
 
 Vector::Vector(double xCom, double yCom, double zCom) {
 	this->xCom = xCom;
 	this->yCom = yCom;
 	this->zCom = zCom;
-	normalize();
 }
 
 Vector::Vector(const Vector& old) {
@@ -76,6 +75,10 @@ Vector Vector::operator-(const Vector& vec) {
 		yCom - vec.yCom,
 		zCom - vec.zCom
 	);
+}
+
+bool Vector::operator==(const Vector& v) {
+	return aboutEquals(xCom, v.xCom) && aboutEquals(yCom, v.yCom) && aboutEquals(zCom, v.zCom);
 }
 
 //Multiply a vector by a scaler value

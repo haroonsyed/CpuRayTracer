@@ -1,4 +1,5 @@
 #include "point.h"
+#include "mathutil.h"
 
 Point::Point(double x, double y, double z) {
 	this->x = x;
@@ -26,6 +27,10 @@ Point Point::operator-(const Point& point) {
 		y - point.y,
 		z - point.z
 	);
+}
+
+bool Point::operator==(const Point& point) {
+	return aboutEquals(x, point.x) && aboutEquals(y, point.y) && aboutEquals(z,point.z);
 }
 
 Point Point::operator*(double scale) {

@@ -3,6 +3,7 @@
 Camera::Camera(Point& cameraLoc, Vector& cameraVec) :cameraLoc{ 0,0,0 }, viewDirection{1,0,0} {
     this->cameraLoc = cameraLoc;
     this->viewDirection = cameraVec;
+    viewDirection.normalize();
 }
 
 Camera::~Camera() {
