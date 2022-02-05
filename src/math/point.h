@@ -9,6 +9,7 @@ public:
 	Point operator+(const Point&);
 	Point operator-(const Point&);
 	bool operator==(const Point&);
+	bool operator!=(const Point&);
 	Point operator*(double scale);
 	Point operator/(double scale);
 	void print();

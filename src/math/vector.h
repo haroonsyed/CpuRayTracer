@@ -20,10 +20,10 @@ public:
 	Vector operator+(const Vector&);
 	Vector operator-(const Vector&);
 	bool operator==(const Vector&);
+	bool operator!=(const Vector&);
 	Vector operator*(double);
 	Vector operator/(double);
 	Point operator+(const Point&);
-	Point operator-(const Point&);
 	Point operator*(const Point&);
 	void print();
 };

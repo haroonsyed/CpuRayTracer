@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../math/mathutil.h"
 #include "../math/vector.h"
+#include "../math/point.h"
 
 TEST_CASE("Creating a vector from two points") {
 	Point p1(0, 0, 0);
@@ -105,9 +106,96 @@ TEST_CASE("Divide vector by scaler") {
 }
 
 TEST_CASE("Cross product of two vectors") {
+	//Positive numbers
 	Vector v1(5.325,235.5,325);
 	Vector v2(234, 259, 19.2);
 	Vector result = v1.cross(v2);
 	Vector correct(-79653.4, 75947.76, -53727.825);
 	REQUIRE((result==correct));
+
+	//With negative numbers
+	v1 = Vector(-2358.1254, -252.1, 2543);
+	v2 = Vector(1258.2122, 940.22224, -2042.2);
+	result = v1.cross(v2);
+	correct = Vector(-1876146.53632, -1616130.06728, -1899966.6501688962);
+	REQUIRE((result == correct));
+}
+
+TEST_CASE("Dot product of two vectors") {
+	//Positive numbers
+	Vector v1(5.325, 235.5, 325);
+	Vector v2(234, 259, 19.2);
+	REQUIRE(aboutEquals(v1.dot(v2),68480.55));
+
+	//With negative numbers
+	v1 = Vector(-2358.1254, -252.1, 2543);
+	v2 = Vector(1258.2122, 940.22224, -2042.2);
+	REQUIRE(aboutEquals(v1.dot(v2),-8397366.7741139));
+}
+
+TEST_CASE("Magnitude of a vector") {
+	Vector v(0, 0, 0);
+	REQUIRE(aboutEquals(v.magnitude(),0));
+
+	v = Vector(3,4,0);
+	REQUIRE(aboutEquals(v.magnitude(), 5));
+
+	v = Vector(223.2362,23642.634,1523.526);
+	REQUIRE(aboutEquals(v.magnitude(), 23692.722687180));
+
+	//With negative numbers
+	v = Vector(-1.000262, -253.235, 1248.33);
+	REQUIRE(aboutEquals(v.magnitude(), 1273.75694488));
+}
+
+TEST_CASE("Check getPerpendicular() is valid") {
+	Vector v(1, 0, 0);
+	Vector perp = v.getPerpendicular();
+	REQUIRE(aboutEquals(v.dot(perp), 0));
+	REQUIRE((v != perp));
+
+	v = Vector(-1523,2643, 373);
+	perp = v.getPerpendicular();
+	v.normalize();
+	REQUIRE(aboutEquals(v.dot(perp), 0));
+	REQUIRE((v != perp));
+}
+
+TEST_CASE("Add vector to a point") {
+	Point p = Point(1,2,1);
+	Vector v = Vector(-1, 4, 7);
+	Point result = p + v;
+	Point correct = Point(0, 6, 8);
+	REQUIRE((result == correct));
+
+	//See if operation is commutative
+	result = v + p;
+	REQUIRE((result == correct));
+
+
+	//With doubles
+	p = Point(26923.347, 57347.4747, 1.13535);
+	v = Vector(252,-467,88.3);
+	result = p + v;
+	correct = Point(26923.347 + 252, 57347.4747 - 467, 1.13535 + 88.3);
+	REQUIRE((result == correct));
+}
+
+TEST_CASE("Subtract vector from a point") {
+	Point p = Point(1, 2, 1);
+	Vector v = Vector(-1, 4, 7);
+	Point result = p - v;
+	Point correct = Point(2, -2, -6);
+	REQUIRE((result == correct));
+
+	//With doubles
+	p = Point(26923.347, 57347.4747, 1.13535);
+	v = Vector(252, -467, 88.3);
+	result = p - v;
+	correct = Point(26923.347 - 252, 57347.4747 + 467, 1.13535 - 88.3);
+	REQUIRE((result == correct));
+}
+
+TEST_CASE("Multiply a point and a vector") {
+
 }

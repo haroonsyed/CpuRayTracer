@@ -81,6 +81,10 @@ bool Vector::operator==(const Vector& v) {
 	return aboutEquals(xCom, v.xCom) && aboutEquals(yCom, v.yCom) && aboutEquals(zCom, v.zCom);
 }
 
+bool Vector::operator!=(const Vector& v) {
+	return !(*this==v);
+}
+
 //Multiply a vector by a scaler value
 Vector Vector::operator*(double scale) {
 	return Vector(
@@ -120,14 +124,6 @@ Point Vector::operator+(const Point& point) {
 	);
 }
 
-Point Vector::operator-(const Point& point) {
-	return Point(
-		point.x - xCom,
-		point.y - yCom,
-		point.z - zCom
-	);
-}
-
 //FOR COMMUTATIVITY
 Vector operator*(double scale, Vector& vec) {
 	return vec * scale;
@@ -139,7 +135,11 @@ Point operator+(Point& point, Vector& vec) {
 	return vec + point;
 }
 Point operator-(Point& point, Vector& vec) {
-	return vec - point; // This is confusing, but points should only be subtracting vectors. But operator overloading got messy
+	return Point(
+		point.x - vec.xCom,
+		point.y - vec.yCom,
+		point.z - vec.zCom
+	); 
 }
 Point operator*(Point& point, Vector& vec) {
 	return vec * point;

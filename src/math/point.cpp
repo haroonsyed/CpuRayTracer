@@ -33,6 +33,10 @@ bool Point::operator==(const Point& point) {
 	return aboutEquals(x, point.x) && aboutEquals(y, point.y) && aboutEquals(z,point.z);
 }
 
+bool Point::operator!=(const Point& point) {
+	return !(*this==point);
+}
+
 Point Point::operator*(double scale) {
 	return Point(
 		x*scale,
