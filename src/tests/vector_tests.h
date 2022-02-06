@@ -3,7 +3,6 @@
 #include <iostream>
 #include "../math/mathutil.h"
 #include "../math/vector.h"
-#include "../math/Vector.h"
 
 TEST_CASE("Creating a vector from two Vectors") {
 	Vector p1(0, 0, 0);
