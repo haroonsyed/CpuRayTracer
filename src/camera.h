@@ -11,11 +11,11 @@ private:
 
     unsigned char* image = nullptr;
 
-    const int widthPix = 128; // keep it in powers of 2!
-    const int heightPix = 128; // keep it in powers of 2!
-	double f_len = 10; //Distance from ray origin to projection screen along looking direction
+    int widthPix; // keep it in powers of 2!
+    int heightPix; // keep it in powers of 2!
+	double f_len = 1; //Distance from ray origin to projection screen along looking direction
 	const double aspectRatio = ((double)widthPix) / heightPix; //Used for fixing scaling
-	const double width = 0.2; //Real world units
+	const double width = 0.4; //Real world units
 	const double height = width / aspectRatio; //Real world units
 
 	MODE mode = MODE::ORTHOGRAPHIC;
@@ -26,7 +26,7 @@ private:
 
 
 public:
-	Camera(Vector&, Vector&);
+	Camera(Vector&, Vector&, int, int);
 	~Camera();
 
 	unsigned char* renderImage();

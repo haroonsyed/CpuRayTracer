@@ -1,5 +1,5 @@
 #pragma once
-#include "../math/Vector.h"
+#include "../math/vector.h"
 #include "../ray.h"
 
 class SceneObj {

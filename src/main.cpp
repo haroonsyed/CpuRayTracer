@@ -171,7 +171,7 @@ int main()
     //Create a camera to render from
     Point camOrigin(0,0,0);
     Vector camVec(1,0,0); //At origin face toward positive x
-    Camera camera(camOrigin, camVec);
+    Camera camera(camOrigin, camVec, width, height);
     unsigned char* data = camera.renderImage();
 
     if (data)

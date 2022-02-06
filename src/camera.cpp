@@ -4,9 +4,11 @@
 //#include "scenes/scene.h"
 //#include "scenes/scene1.h"
 
-Camera::Camera(Vector& cameraLoc, Vector& cameraVec) :cameraLoc{ 0,0,0 }, viewDirection{1,0,0} {
+Camera::Camera(Vector& cameraLoc, Vector& cameraVec, int widthPix, int heightPix) :cameraLoc{ 0,0,0 }, viewDirection{1,0,0} {
     this->cameraLoc = cameraLoc;
     this->viewDirection = cameraVec;
+    this->widthPix = widthPix;
+    this->heightPix = heightPix;
     viewDirection.normalize();
 }
 
@@ -38,8 +40,8 @@ unsigned char* Camera::renderImage() {
 
     //Choose scene
     //Scene scene = scene1;
-    Vector sp = Vector(0,0,5);
-    Sphere sph = Sphere(sp, 3);
+    Vector sp = Vector(5,0,0);
+    Sphere sph = Sphere(sp, 4);
 
     u.print();
     v.print();
@@ -57,7 +59,7 @@ unsigned char* Camera::renderImage() {
 
                 //Generate a ray facing normal to camera screen at pixel Vector
                 Vector origin = sOrigin  + 
-                            u*(width/2*(j-widthPix/2)) +
+                            u*(width/2*(j-widthPix/2)) + //Change scaling to be appropriate
                             v*(height/2*(i-heightPix/2));
                 Ray r = Ray(origin,viewDirection);
 
