@@ -45,7 +45,7 @@ unsigned char* Camera::renderImage() {
     Vector sp = Vector(20,2.5,-2.3);
     Sphere sph = Sphere(sp, 2);
     //Light comes from side
-    Vector lightDir(0, 50, 0);
+    Vector lightDir(-1000, 0, 0);
     Light light = Light(lightDir,0.8);
 
     u.print();

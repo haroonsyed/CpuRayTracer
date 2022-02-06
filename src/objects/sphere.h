@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 #include "sceneobj.h"
 
 class Sphere : public SceneObj {
@@ -21,9 +22,13 @@ public:
 			return Intersection();
 		}
 		else {
-			double t =std::min( (-0.5 * B + sqrt(discriminant)) / A, (-0.5 * B - sqrt(discriminant)) / A);
+			double t =std::min( (-0.5 * B + std::sqrt(discriminant)) / A, (-0.5 * B - std::sqrt(discriminant)) / A);
+			if (t < 0) {
+				return Intersection();
+			}
 			Vector p = ray.origin + t * ray.vector;
-			return Intersection(p, (p-c)/r);
+			Vector n = (p - c) / r;
+			return Intersection(p, n);
 		}
 	}
 	void print() {
