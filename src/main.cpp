@@ -165,8 +165,8 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     // Create the image (RGB Array) to be displayed
-    const int width = 128; // keep it in powers of 2!
-    const int height = 128; // keep it in powers of 2!
+    const int width = 512; // keep it in powers of 2!
+    const int height = 512; // keep it in powers of 2!
 
     //Create a camera to render from
     Point camOrigin(0,0,0);
