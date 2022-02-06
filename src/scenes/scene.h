@@ -11,5 +11,6 @@ public:
 		this->objects = objects;
 	}
 	std::vector<SceneObj*> objects;
+	std::vector<
 };
 
