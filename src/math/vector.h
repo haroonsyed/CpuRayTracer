@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "point.h"
+#include "vector.h"
 
 class Vector
 {
@@ -9,7 +9,7 @@ private:
 public:
 	double xCom, yCom, zCom;
 
-	Vector(Point& p1, Point& p2);
+	Vector(Vector& p1, Vector& p2);
 	Vector(double xCom, double yCom, double zCom);
 	Vector(const Vector& old);
 	Vector cross(const Vector&);
@@ -23,14 +23,9 @@ public:
 	bool operator!=(const Vector&);
 	Vector operator*(double);
 	Vector operator/(double);
-	Point operator+(const Point&);
-	Point operator*(const Point&);
 	void print();
 };
 
 Vector operator*(double scale, Vector& vec);
-Point operator+(Point& point, Vector& vec);
-Point operator-(Point& point, Vector& vec);
-Point operator*(Point& point, Vector& vec);
 
 

@@ -2,10 +2,10 @@
 #include <math.h>
 #include "mathutil.h"
 
-Vector::Vector(Point& p1, Point& p2) {
-	this->xCom = p2.x - p1.x;
-	this->yCom = p2.y - p1.y;
-	this->zCom = p2.z - p1.z;
+Vector::Vector(Vector& p1, Vector& p2) {
+	this->xCom = p2.xCom - p1.xCom;
+	this->yCom = p2.yCom - p1.yCom;
+	this->zCom = p2.zCom - p1.zCom;
 }
 
 Vector::Vector(double xCom, double yCom, double zCom) {
@@ -103,25 +103,8 @@ Vector Vector::operator/(double scale) {
 	);
 }
 
-Point Vector::operator*(const Point& point) {
-	return Point(
-		xCom*point.x,
-		yCom*point.y,
-		zCom*point.z
-	);
-}
-
-
 void Vector::print() {
 	std::cout << xCom << " " << yCom << " " << zCom << std::endl;
-}
-
-Point Vector::operator+(const Point& point) {
-	return Point(
-		point.x + xCom, 
-		point.y + yCom, 
-		point.z + zCom
-	);
 }
 
 //FOR COMMUTATIVITY
@@ -130,17 +113,4 @@ Vector operator*(double scale, Vector& vec) {
 }
 Vector operator/(double scale, Vector& vec) {
 	return vec / scale;
-}
-Point operator+(Point& point, Vector& vec) {
-	return vec + point;
-}
-Point operator-(Point& point, Vector& vec) {
-	return Point(
-		point.x - vec.xCom,
-		point.y - vec.yCom,
-		point.z - vec.zCom
-	); 
-}
-Point operator*(Point& point, Vector& vec) {
-	return vec * point;
 }

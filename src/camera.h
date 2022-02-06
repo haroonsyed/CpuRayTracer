@@ -1,5 +1,7 @@
 #pragma once
 #include "math/vector.h"
+#include "math/point.h"
+
 class Camera
 {
 
@@ -18,13 +20,13 @@ private:
 
 	MODE mode = MODE::ORTHOGRAPHIC;
 
-	Point cameraLoc;
+	Vector cameraLoc;
 	Vector viewDirection;
 	Vector up = Vector(0,0,1); //Default to 0,0,1
 
 
 public:
-	Camera(Point&, Vector&);
+	Camera(Vector&, Vector&);
 	~Camera();
 
 	unsigned char* renderImage();

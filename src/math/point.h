@@ -1,19 +1,8 @@
 #pragma once
-#include <iostream>
+#include "vector.h"
 
-class Point {
+// MAINLY USED FOR SEMANTICS. ACTS AS A VECTOR THOUGH
+class Point : public Vector {
 public:
-	double x, y, z;
-	Point(double x, double y, double z);
-	Point(const Point &old);
-	Point operator+(const Point&);
-	Point operator-(const Point&);
-	bool operator==(const Point&);
-	bool operator!=(const Point&);
-	Point operator*(double scale);
-	Point operator/(double scale);
-	void print();
+	Point(double x, double y, double z) :Vector(x, y, z) {};
 };
-
-Point operator*(double scale, Point& p);
-

@@ -7,6 +7,7 @@
 
 //My libraries
 #include "camera.h"
+#include "math/point.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -168,7 +169,7 @@ int main()
     const int height = 128; // keep it in powers of 2!
 
     //Create a camera to render from
-    Point camOrigin(0,5,0);
+    Point camOrigin(0,0,0);
     Vector camVec(1,0,0); //At origin face toward positive x
     Camera camera(camOrigin, camVec);
     unsigned char* data = camera.renderImage();

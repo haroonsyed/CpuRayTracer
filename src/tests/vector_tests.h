@@ -3,19 +3,19 @@
 #include <iostream>
 #include "../math/mathutil.h"
 #include "../math/vector.h"
-#include "../math/point.h"
+#include "../math/Vector.h"
 
-TEST_CASE("Creating a vector from two points") {
-	Point p1(0, 0, 0);
-	Point p2(1, 0, 0);
+TEST_CASE("Creating a vector from two Vectors") {
+	Vector p1(0, 0, 0);
+	Vector p2(1, 0, 0);
 	Vector v(p1, p2);
 	REQUIRE(aboutEquals(v.xCom,1));
 	REQUIRE(aboutEquals(v.yCom, 0));
 	REQUIRE(aboutEquals(v.zCom, 0));
 
 	//Check vector is normalized
-	p1 = Point(0,0,0);
-	p2 = Point(4,3,0);
+	p1 = Vector(0,0,0);
+	p2 = Vector(4,3,0);
 	v = Vector(p1, p2);
 	v.normalize();
 	REQUIRE(aboutEquals(v.xCom, 4./5));
@@ -23,9 +23,9 @@ TEST_CASE("Creating a vector from two points") {
 	REQUIRE(aboutEquals(v.zCom, 0));
 
 
-	//Check from two non-origin points
-	p1 = Point(6, 1, sqrt(8));
-	p2 = Point(4, 3, 0);
+	//Check from two non-origin Vectors
+	p1 = Vector(6, 1, sqrt(8));
+	p2 = Vector(4, 3, 0);
 	v = Vector(p1, p2);
 	v.normalize();
 	REQUIRE(aboutEquals(v.xCom, -2. / 4));
@@ -159,43 +159,4 @@ TEST_CASE("Check getPerpendicular() is valid") {
 	v.normalize();
 	REQUIRE(aboutEquals(v.dot(perp), 0));
 	REQUIRE((v != perp));
-}
-
-TEST_CASE("Add vector to a point") {
-	Point p = Point(1,2,1);
-	Vector v = Vector(-1, 4, 7);
-	Point result = p + v;
-	Point correct = Point(0, 6, 8);
-	REQUIRE((result == correct));
-
-	//See if operation is commutative
-	result = v + p;
-	REQUIRE((result == correct));
-
-
-	//With doubles
-	p = Point(26923.347, 57347.4747, 1.13535);
-	v = Vector(252,-467,88.3);
-	result = p + v;
-	correct = Point(26923.347 + 252, 57347.4747 - 467, 1.13535 + 88.3);
-	REQUIRE((result == correct));
-}
-
-TEST_CASE("Subtract vector from a point") {
-	Point p = Point(1, 2, 1);
-	Vector v = Vector(-1, 4, 7);
-	Point result = p - v;
-	Point correct = Point(2, -2, -6);
-	REQUIRE((result == correct));
-
-	//With doubles
-	p = Point(26923.347, 57347.4747, 1.13535);
-	v = Vector(252, -467, 88.3);
-	result = p - v;
-	correct = Point(26923.347 - 252, 57347.4747 + 467, 1.13535 - 88.3);
-	REQUIRE((result == correct));
-}
-
-TEST_CASE("Multiply a point and a vector") {
-
 }

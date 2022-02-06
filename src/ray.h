@@ -7,8 +7,8 @@ class Ray
 private:
 
 public:
-	Point* origin;
-	Vector* vector;
-	Ray(Point* origin, Vector* vector);
+	Vector origin;
+	Vector vector;
+	Ray(Vector& origin, Vector& vector);
 };
 
