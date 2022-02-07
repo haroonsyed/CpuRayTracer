@@ -1,4 +1,5 @@
 #include "scene.h"
+#include <math.h>
 
 Scene::Scene(std::vector<SceneObj*>& objects, std::vector<Light*>& lights) :ambientCoeff{0.05} {
 	this->objects = objects;
