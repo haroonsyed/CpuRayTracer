@@ -51,8 +51,8 @@ unsigned char* Camera::renderImage() {
 
                 //Generate a ray facing normal to camera screen at pixel Vector
                 Vector origin = sOrigin +
-                    u * (width/2. * (j-widthPix)/(double)widthPix ) +
-                    v * (height/2. * (i-heightPix)/(double)heightPix );
+                    u * (width * ((j-widthPix)/(double)widthPix) + width/2) +
+                    v * (height * ((i-heightPix)/(double)heightPix) + height/2);
                 Ray r = Ray(origin,viewDirection);
 
                 Intersection closest = Intersection();
@@ -73,12 +73,13 @@ unsigned char* Camera::renderImage() {
                 // Now color based on closes intersection
                 if (closest.didHit) {
                     for (Light* light : scene.lights) {
-                        Vector l = Vector(closest.intersectionPoint, light->position);
-                        l.normalize();
-                        double pixelIntensity = light->intensity * std::max(0., closest.normal.dot(l));
-                        image[idx + 0] = std::min(image[idx + 0] + closest.mat.r * pixelIntensity, 255.);
-                        image[idx + 1] = std::min(image[idx + 1] + closest.mat.g * pixelIntensity, 255.);
-                        image[idx + 2] = std::min(image[idx + 2] + closest.mat.b * pixelIntensity, 255.);
+                        Vector l = Vector(closest.intersectionPoint, light->position).normalize();
+                        Vector h = (-1*r.vector + l).normalize();
+                        double diffusePass = closest.mat.diffuse * light->intensity * std::max(0., closest.normal.dot(l));
+                        double specularPass = light->intensity * std::max(0., std::pow(closest.normal.dot(h),closest.mat.specular));
+                        image[idx + 0] = std::min(image[idx + 0] + closest.mat.r * (diffusePass+specularPass+scene.ambientCoeff), 255.);
+                        image[idx + 1] = std::min(image[idx + 1] + closest.mat.g * (diffusePass+specularPass+scene.ambientCoeff), 255.);
+                        image[idx + 2] = std::min(image[idx + 2] + closest.mat.b * (diffusePass+specularPass+scene.ambientCoeff), 255.);
                     }
                 }
             }

@@ -7,25 +7,29 @@
 Scene scene1 = Scene (
      *new std::vector<SceneObj*>{
         new Sphere(
-            *new Vector(40, 1, -2.3),
-            1,
-            *new Material(0,0,255)
+            *new Vector(40, 0, 2),
+            2,
+            *new Material(0,0,255,0.9,1000)
         ),
         new Sphere(
-            *new Vector(30, 3, -2.3),
-            1.5,
+            *new Vector(30, 2, 0),
+            1,
             *new Material(0,255,0)
         ),
         new Tetrahedron(
-            *new Vector(13,1.5,-4),
-            *new Material(255,0,0)
+            *new Vector(40,-2.5,-1),
+            *new Material(255,0,0, 0.9, 1000)
         )
     }
 ,
     *new std::vector<Light*>{
-        new Light(
-            *new Vector(0,0,-20),
-            0.9
+        new Light( // Main light
+            *new Vector(0,40,0),
+            0.5
+        ),
+        new Light( //Side light
+            *new Vector(0,0,5),
+            0.3
         )
     }
 );
