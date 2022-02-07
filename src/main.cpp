@@ -10,7 +10,7 @@
 #include "math/point.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window);
+void processInput(GLFWwindow* window, Camera& camera);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -169,8 +169,8 @@ int main()
     const int height = 512; // keep it in powers of 2!
 
     //Create a camera to render from
-    Point camOrigin(0,0,0);
-    Vector camVec(1,0,0); //At origin face toward positive x
+    Point camOrigin(0, 0, 0);
+    Vector camVec(1, 0, 0); //At origin face toward positive x
     Camera camera(camOrigin, camVec, width, height);
     unsigned char* data = camera.renderImage();
 
@@ -192,7 +192,12 @@ int main()
     {
         // input
         // -----
-        processInput(window);
+        processInput(window, camera);
+
+        camera.cameraLoc.xCom = camera.cameraLoc.xCom + 0.1;
+        data = camera.renderImage();
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
 
         // render
         // ------
@@ -229,10 +234,14 @@ int main()
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
-void processInput(GLFWwindow* window)
+void processInput(GLFWwindow* window, Camera& camera)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) {
+        // Change the perspective type
+        camera.changePerspective();
+    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

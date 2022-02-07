@@ -20,17 +20,18 @@ private:
 
 	MODE mode = MODE::PERSPECTIVE;
 
+
+
+public:
 	Vector cameraLoc;
 	Vector viewDirection;
 	Vector up = Vector(0,0,1); //Default to 0,0,1
 
-
-public:
 	Camera(Vector&, Vector&, int, int);
 	~Camera();
 
 	unsigned char* renderImage();
-
+	void changePerspective();
 
 };
 

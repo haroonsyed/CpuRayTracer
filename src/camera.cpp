@@ -78,3 +78,16 @@ unsigned char* Camera::renderImage() {
 
     return image;
 }
+
+void Camera::changePerspective() {
+    if (mode == MODE::ORTHOGRAPHIC) {
+        mode = MODE::PERSPECTIVE;
+        width /= 5;
+        height = width / aspectRatio;
+    }
+    else {
+        mode = MODE::ORTHOGRAPHIC;
+        width *= 5;
+        height = width / aspectRatio;
+    }
+}
