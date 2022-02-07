@@ -7,11 +7,11 @@
 // Starting out it will be its own object though
 class Triangle : public SceneObj {
 private:
+
+public:
 	Vector p1 = Vector(0, 0, 0);
 	Vector p2 = Vector(0, 0, 0);
 	Vector p3 = Vector(0, 0, 0);
-
-public:
 
 	Triangle(Vector& p1, Vector& p2, Vector& p3, Material& mat):SceneObj(p1,mat) {
 		this->p1 = p1;
@@ -66,12 +66,14 @@ public:
 		);
 	}
 	Vector findCenter() {
-		return p1 + p2 + p3;
+		return (p1 + p2 + p3) /  3;
 	}
 	void print() {
 		std::cout << "Triangle points: " << std::endl;
 		p1.print();
 		p2.print();
 		p3.print();
+		std::cout << "With center: " << std::endl;
+		findCenter().print();
 	}
 };
