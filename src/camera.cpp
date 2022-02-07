@@ -51,8 +51,8 @@ unsigned char* Camera::renderImage() {
 
                 //Generate a ray facing normal to camera screen at pixel Vector
                 Vector origin = sOrigin +
-                    u * (width * (j-widthPix)/(double)widthPix ) +
-                    v * (height* (i-heightPix)/(double)heightPix );
+                    u * (width/2. * (j-widthPix)/(double)widthPix ) +
+                    v * (height/2. * (i-heightPix)/(double)heightPix );
                 Ray r = Ray(origin,viewDirection);
 
                 Intersection closest = Intersection();

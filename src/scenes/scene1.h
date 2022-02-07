@@ -24,8 +24,8 @@ Scene scene1 = Scene (
 ,
     *new std::vector<Light*>{
         new Light(
-            *new Vector(0,5,0),
-            0.8
+            *new Vector(0,0,-20),
+            0.9
         )
     }
 );
