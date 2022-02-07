@@ -1,8 +1,5 @@
 #include "camera.h"
-#include "objects/sphere.h"
-#include "lights/light.h"
 #include "scenes/scene1.h"
-//#include "scenes/scene.h"
 
 Camera::Camera(Vector& cameraLoc, Vector& cameraVec, int widthPix, int heightPix) :cameraLoc{ 0,0,0 }, viewDirection{1,0,0} {
     this->cameraLoc = cameraLoc;
@@ -46,42 +43,15 @@ unsigned char* Camera::renderImage() {
         {
 
             int idx = (i * widthPix + j) * 3;
+            Vector* origin;
+            Ray* r;
 
             if (mode == MODE::ORTHOGRAPHIC) {
-
                 //Generate a ray facing normal to camera screen at pixel Vector
-                Vector origin = sOrigin +
+                origin = &(sOrigin +
                     u * (width * ((j-widthPix)/(double)widthPix) + width/2) +
-                    v * (height * ((i-heightPix)/(double)heightPix) + height/2);
-                Ray r = Ray(origin,viewDirection);
-
-                Intersection closest = Intersection();
-                Intersection hit;
-
-                for (SceneObj* obj : scene.objects) {
-                    hit = obj->doesIntersect(r);
-                    if (hit.didHit) {
-                        closest = hit.t < closest.t ? hit : closest;
-                    }
-                }
-
-                //Init pixels
-                image[idx + 0] = 0;
-                image[idx + 1] = 0;
-                image[idx + 2] = 0;
-
-                // Now color based on closes intersection
-                if (closest.didHit) {
-                    for (Light* light : scene.lights) {
-                        Vector l = Vector(closest.intersectionPoint, light->position).normalize();
-                        Vector h = (-1*r.vector + l).normalize();
-                        double diffusePass = closest.mat.diffuse * light->intensity * std::max(0., closest.normal.dot(l));
-                        double specularPass = closest.mat.specular * light->intensity * std::max(0., std::pow(closest.normal.dot(h),closest.mat.specular*20));
-                        image[idx + 0] = std::min(image[idx + 0] + closest.mat.r * (diffusePass+scene.ambientCoeff) + 255*(specularPass), 255.);
-                        image[idx + 1] = std::min(image[idx + 1] + closest.mat.g * (diffusePass+scene.ambientCoeff) + 255*(specularPass), 255.);
-                        image[idx + 2] = std::min(image[idx + 2] + closest.mat.b * (diffusePass+scene.ambientCoeff) + 255*(specularPass), 255.);
-                    }
-                }
+                    v * (height * ((i-heightPix)/(double)heightPix) + height/2));
+                r = &Ray(*origin,viewDirection);
             }
 
             else if (mode == MODE::PERSPECTIVE) {
@@ -91,6 +61,12 @@ unsigned char* Camera::renderImage() {
                 image[idx + 2] = 0;
 
             }
+
+            // Render the ray and set image array pixels
+            Pixel pixel = scene.render(*r);
+            image[idx] = pixel.r;
+            image[idx + 1] = pixel.g;
+            image[idx + 2] = pixel.b;
 
         }
     }

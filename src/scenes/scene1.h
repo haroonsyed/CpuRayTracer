@@ -1,5 +1,5 @@
 #include "scene.h"
-#include "../objects/triangle.h"
+#include "../objects/sphere.h"
 #include "../objects/tetrahedron.h"
 
 // I'm pretty sure this is not conventional, but I don't know a better way
