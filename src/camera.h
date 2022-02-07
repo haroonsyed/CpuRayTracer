@@ -15,10 +15,10 @@ private:
     int heightPix = 256; // keep it in powers of 2!
 	double f_len = 5; //Distance from ray origin to projection screen along looking direction
 	double aspectRatio = ((double)widthPix) / heightPix; //Used for fixing scaling
-	double width = 8; //Real world units
+	double width = 1; //Real world units
 	double height = width / aspectRatio; //Real world units
 
-	MODE mode = MODE::ORTHOGRAPHIC;
+	MODE mode = MODE::PERSPECTIVE;
 
 	Vector cameraLoc;
 	Vector viewDirection;

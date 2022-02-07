@@ -43,23 +43,27 @@ unsigned char* Camera::renderImage() {
         {
 
             int idx = (i * widthPix + j) * 3;
-            Vector* origin = nullptr;
+            
+            //Location on screen
+            Vector screenLoc =  (sOrigin +
+                u * (width * ((j - widthPix) / (double)widthPix) + width / 2) +
+                v * (height * ((i - heightPix) / (double)heightPix) + height / 2));
             Ray* r = nullptr;
 
             if (mode == MODE::ORTHOGRAPHIC) {
                 //Generate a ray facing normal to camera screen at pixel Vector
-                origin = new Vector((sOrigin +
-                    u * (width * ((j-widthPix)/(double)widthPix) + width/2) +
-                    v * (height * ((i-heightPix)/(double)heightPix) + height/2)));
-                r = new Ray(*origin,viewDirection);
+                r = new Ray(screenLoc,viewDirection);
             }
 
             else if (mode == MODE::PERSPECTIVE) {
 
-                image[idx] = 0;
-                image[idx + 1] = 0;
-                image[idx + 2] = 0;
+                //Generate a ray from cam location toward camera screen pixel (not normal)
+                r = new Ray(cameraLoc, screenLoc);
 
+            }
+
+            if (r == nullptr) {
+                throw; // Set specific exception later
             }
 
             // Render the ray and set image array pixels
@@ -68,7 +72,6 @@ unsigned char* Camera::renderImage() {
             image[idx + 1] = pixel.g;
             image[idx + 2] = pixel.b;
 
-            delete origin;
             delete r;
         }
     }
