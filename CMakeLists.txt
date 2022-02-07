@@ -3,8 +3,10 @@ cmake_minimum_required(VERSION 2.9)
 IF(UNIX)
 message("Running on Linux")
 #Install dependencies
-execute_process(COMMAND sudo apt-get install libxmu-dev libxi-dev libgl-dev)
-execute_process(COMMAND sudo apt install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev)
+#may need the following:
+#libxmu-dev libxi-dev libgl-dev
+#libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev
+
 #Install VCPKG
 execute_process(COMMAND ../vcpkg/bootstrap-vcpkg.sh -disableMetrics)
 #Install the required libraries with vcpkg

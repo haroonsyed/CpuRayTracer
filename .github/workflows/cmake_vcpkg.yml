@@ -17,6 +17,10 @@ jobs:
       with:
           submodules: recursive
 
+    - name: Installing Dependencies
+      run: |
+        sudo apt-get install libxmu-dev libxi-dev libgl-dev libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev
+
     - name: Running cmake
       run: |
         cd ${{ github.workspace }}
