@@ -15,4 +15,3 @@ public:
 	std::vector<SceneObj*> objects;
 	std::vector<Light*> lights;
 };
-

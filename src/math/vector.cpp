@@ -36,11 +36,12 @@ double Vector::magnitude() {
 	return std::sqrt(xCom * xCom + yCom * yCom + zCom * zCom);
 }
 
-void Vector::normalize() {
+Vector Vector::normalize() {
 	double mag = magnitude();
 	xCom /= mag;
 	yCom /= mag;
 	zCom /= mag;
+	return *this;
 }
 
 Vector Vector::getPerpendicular() {

@@ -15,7 +15,7 @@ public:
 	Vector cross(const Vector&);
 	double dot(const Vector&);
 	double magnitude();
-	void normalize();
+	Vector normalize();
 	Vector getPerpendicular();
 	Vector operator+(const Vector&);
 	Vector operator-(const Vector&);
