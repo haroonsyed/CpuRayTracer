@@ -76,10 +76,10 @@ unsigned char* Camera::renderImage() {
                         Vector l = Vector(closest.intersectionPoint, light->position).normalize();
                         Vector h = (-1*r.vector + l).normalize();
                         double diffusePass = closest.mat.diffuse * light->intensity * std::max(0., closest.normal.dot(l));
-                        double specularPass = light->intensity * std::max(0., std::pow(closest.normal.dot(h),closest.mat.specular));
-                        image[idx + 0] = std::min(image[idx + 0] + closest.mat.r * (diffusePass+specularPass+scene.ambientCoeff), 255.);
-                        image[idx + 1] = std::min(image[idx + 1] + closest.mat.g * (diffusePass+specularPass+scene.ambientCoeff), 255.);
-                        image[idx + 2] = std::min(image[idx + 2] + closest.mat.b * (diffusePass+specularPass+scene.ambientCoeff), 255.);
+                        double specularPass = closest.mat.specular * light->intensity * std::max(0., std::pow(closest.normal.dot(h),closest.mat.specular*20));
+                        image[idx + 0] = std::min(image[idx + 0] + closest.mat.r * (diffusePass+scene.ambientCoeff) + 255*(specularPass), 255.);
+                        image[idx + 1] = std::min(image[idx + 1] + closest.mat.g * (diffusePass+scene.ambientCoeff) + 255*(specularPass), 255.);
+                        image[idx + 2] = std::min(image[idx + 2] + closest.mat.b * (diffusePass+scene.ambientCoeff) + 255*(specularPass), 255.);
                     }
                 }
             }

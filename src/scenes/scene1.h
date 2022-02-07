@@ -18,13 +18,17 @@ Scene scene1 = Scene (
         ),
         new Tetrahedron(
             *new Vector(40,-2.5,-1),
-            *new Material(255,0,0, 0.9, 1000)
+            *new Material(255,0,0, 0.9, 100)
         )
     }
 ,
     *new std::vector<Light*>{
         new Light( // Main light
             *new Vector(0,40,0),
+            0.5
+        ),
+        new Light( // Back light
+            *new Vector(100,-20,0),
             0.5
         ),
         new Light( //Side light

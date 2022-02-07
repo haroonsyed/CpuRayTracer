@@ -8,7 +8,7 @@ class Scene
 private:
 
 public:
-	const double ambientCoeff = 0.02;
+	const double ambientCoeff = 0.05;
 	Scene(std::vector<SceneObj*>& objects, std::vector<Light*>& lights) {
 		this->objects = objects;
 		this->lights = lights;
