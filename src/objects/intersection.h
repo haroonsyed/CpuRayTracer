@@ -1,4 +1,5 @@
 #pragma once
+#include <cfloat>
 #include "../math/vector.h"
 #include "material.h"
 
