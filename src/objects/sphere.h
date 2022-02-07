@@ -6,7 +6,7 @@ class Sphere : public SceneObj {
 private:
 	double radius;
 public:
-	Sphere(Vector& p, double r):SceneObj(p) {
+	Sphere(Vector& p, double r, Material& mat):SceneObj(p, mat) {
 		radius = r;
 	}
 	Intersection doesIntersect(Ray& ray) {
@@ -22,13 +22,14 @@ public:
 			return Intersection();
 		}
 		else {
-			double t =std::min( (-0.5 * B + std::sqrt(discriminant)) / A, (-0.5 * B - std::sqrt(discriminant)) / A);
+			double discRoot = std::sqrt(discriminant);
+			double t =std::min( (-1*B + discRoot ) / (2*A), (-1*B - discRoot) / (2*A));
 			if (t < 0) {
 				return Intersection();
 			}
 			Vector p = ray.origin + t * ray.vector;
 			Vector n = (p - c) / r;
-			return Intersection(p, n);
+			return Intersection(t, p, n, mat);
 		}
 	}
 	void print() {

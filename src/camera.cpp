@@ -1,6 +1,7 @@
 #include "camera.h"
 #include "objects/sphere.h"
 #include "lights/light.h"
+#include "scenes/scene.h"
 //#include "scenes/scene.h"
 //#include "scenes/scene1.h"
 
@@ -42,16 +43,25 @@ unsigned char* Camera::renderImage() {
 
     //Choose scene
     //Scene scene = scene1;
-    Vector sp = Vector(20,2.5,-2.3);
-    Sphere sph = Sphere(sp, 2);
-    //Light comes from side
-    Vector lightDir(-1000, 0, 0);
-    Light light = Light(lightDir,0.8);
+    Vector* sp = new Vector(10,1,-2.3);
+    Material mat1(0,0,255);
+    Sphere* sph = new Sphere(*sp, 1, mat1);
+    Vector* sp2 = new Vector(20,3,-2.3);
+    Material mat2(0, 255, 0);
+    Sphere* sph2 = new Sphere(*sp2, 1, mat2);
+
+    //Lighting
+    Vector lightPos(0, 15, 0);
+    Light* light1 = new Light(lightPos, 0.8);
+
+    std::vector<SceneObj*> objs{ sph, sph2 };
+    std::vector<Light*> lights{light1};
+
+    Scene scene(objs, lights);
 
     u.print();
     v.print();
     w.print();
-    sph.print();
     
     for (int i = 0; i < heightPix; i++)
     {
@@ -68,21 +78,32 @@ unsigned char* Camera::renderImage() {
                     v * (height* (i-heightPix)/(double)heightPix );
                 Ray r = Ray(origin,viewDirection);
 
-                Intersection hit = sph.doesIntersect(r);
-                if (hit.didHit) {
-                    Vector l = Vector(hit.intersectionPoint, light.position);
-                    l.normalize();
-                    int pixelVal = light.intensity * 255 * std::max(0., hit.normal.dot(l));
-                    image[idx + 0] = 0;
-                    image[idx + 1] = 0;
-                    image[idx + 2] = pixelVal;
+                Intersection closest = Intersection();
+                Intersection hit;
+
+                for (SceneObj* obj : scene.objects) {
+                    hit = obj->doesIntersect(r);
+                    if (hit.didHit) {
+                        closest = hit.t < closest.t ? hit : closest;
+                    }
+                }
+
+                // Now color based on closes intersection
+                if (closest.didHit) {
+                    for (Light* light : scene.lights) {
+                        Vector l = Vector(closest.intersectionPoint, light->position);
+                        l.normalize();
+                        double pixelIntensity = light->intensity * std::max(0., closest.normal.dot(l));
+                        image[idx + 0] = closest.mat.r * pixelIntensity;
+                        image[idx + 1] = closest.mat.g * pixelIntensity;
+                        image[idx + 2] = closest.mat.b * pixelIntensity;
+                    }
                 }
                 else {
                     image[idx + 0] = 0;
                     image[idx + 1] = 0;
                     image[idx + 2] = 0;
                 }
-
             }
 
             else if (mode == MODE::PERSPECTIVE) {
