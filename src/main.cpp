@@ -3,11 +3,13 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-#include <iostream>
-
 //My libraries
 #include "camera.h"
 #include "math/point.h"
+
+// Img lib
+#include <iostream>
+#include "lodepng.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window, Camera& camera);
@@ -165,8 +167,8 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     // Create the image (RGB Array) to be displayed
-    const int width = 256; // keep it in powers of 2!
-    const int height = 256; // keep it in powers of 2!
+    const unsigned int width = 720; // keep it in powers of 2!
+    const unsigned int height = 360; // keep it in powers of 2!
 
     //Create a camera to render from
     Point camOrigin(5, 0, 0);
@@ -186,15 +188,44 @@ int main()
 
 
 
+
+    bool shouldRender = true;
+    int frame = 0;
+    int endFrame = 24 * 15;
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
-
+        //Move camera
         camera.cameraLoc.xCom = camera.cameraLoc.xCom + 0.05;
         camera.cameraLoc.print();
-        //Slowly rotate the camera around to face where we started
         data = camera.renderImage();
+
+        if (shouldRender == true && frame <= endFrame) {
+            std::vector<unsigned char> img_buffer;
+
+            for (int i = 0; i < width * height; i++) {
+                int idx = i * 3;
+                img_buffer.push_back(data[idx]);
+                img_buffer.push_back(data[idx+1]);
+                img_buffer.push_back(data[idx+2]);
+                img_buffer.push_back(255);
+            }
+
+
+            std::string name = std::to_string(frame) + ".png";
+            unsigned error = lodepng::encode(name, img_buffer, width, height);
+            //if there's an error, display it
+            if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+
+            frame++;
+        }
+        else if (shouldRender == true) {
+            // Stop the render when complete
+            glfwSetWindowShouldClose(window, true);
+        }
+
+
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
 
