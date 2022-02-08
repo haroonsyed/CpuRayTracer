@@ -24,11 +24,6 @@ public:
 		// https://www.youtube.com/watch?v=HYAgJN3x4GA
 
 		Vector n = (p2 - p1).cross(p3 - p1).normalize();
-		
-		// Parallel check
-		if (n.dot(ray.vector) == 0) {
-			return Intersection();
-		}
 
 		// Use barymetric coordinates. Solving using cramer's rule
 		double a = p1.xCom - p2.xCom;

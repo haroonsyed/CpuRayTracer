@@ -7,7 +7,7 @@
 Scene scene1 = Scene (
      *new std::vector<SceneObj*>{
         new Sphere(
-            *new Vector(120, 0, 2),
+            *new Vector(100, 0, 2),
             2,
             *new Material(0,0,255,0.9,1000)
         ),
@@ -18,7 +18,7 @@ Scene scene1 = Scene (
         ),
         new Tetrahedron(
             *new Vector(40,-2.5,-1),
-            *new Material(255,0,0)
+            *new Material(255,0,0, 1, 100)
         )
     }
 ,
@@ -31,9 +31,9 @@ Scene scene1 = Scene (
             *new Vector(100,-20,0),
             0.5
         ),
-        new Light( //Side light
-            *new Vector(0,0,5),
-            0.3
-        )
+        //new Light( //Side light
+        //    *new Vector(0,0,5),
+        //    0.3
+        //)
     }
 );

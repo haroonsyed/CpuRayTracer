@@ -8,6 +8,7 @@ Camera::Camera(Vector& cameraLoc, Vector& cameraVec, int widthPix, int heightPix
     this->heightPix = heightPix;
     this->aspectRatio = ((double)widthPix) / heightPix;
     this->height = height / aspectRatio;
+    image = new unsigned char[widthPix * heightPix * 3];
     viewDirection.normalize();
 }
 
@@ -18,16 +19,13 @@ Camera::~Camera() {
     }
 }
 
-unsigned char* Camera::renderImage() {
-
-    // Create the image (RGB Array) to be displayed
-    image = new unsigned char[widthPix * heightPix * 3];
+unsigned char* Camera::renderImage() {    
     // Determine the screen origin
     Vector sOrigin =  f_len * viewDirection + cameraLoc;
     //Determine screen plane
     Vector w = -1*viewDirection;
-    Vector u = (up.cross(w)) / ((up.cross(w)).magnitude());
-    Vector v = w.cross(u);
+    Vector u = up.cross(w).normalize();
+    Vector v = w.cross(u).normalize();
     //Determine left, right, top, bottom edges of the screen
     Vector sLeft = sOrigin - u * (width / 2);
     Vector sRight = sOrigin + u * (width / 2);
@@ -37,6 +35,8 @@ unsigned char* Camera::renderImage() {
     //Choose scene
     Scene scene = scene1;
     
+    Ray r = Ray(w,u); //Initialize ray with garbage data. Reused in double for loop though
+
     for (int i = 0; i < heightPix; i++)
     {
         for (int j = 0; j < widthPix; j++)
@@ -48,31 +48,24 @@ unsigned char* Camera::renderImage() {
             Vector screenLoc =  (sOrigin +
                 u * (width * ((j - widthPix) / (double)widthPix) + width / 2) +
                 v * (height * ((i - heightPix) / (double)heightPix) + height / 2));
-            Ray* r = nullptr;
 
             if (mode == MODE::ORTHOGRAPHIC) {
                 //Generate a ray facing normal to camera screen at pixel Vector
-                r = new Ray(screenLoc,viewDirection);
+                r = Ray(screenLoc,viewDirection);
             }
 
             else if (mode == MODE::PERSPECTIVE) {
 
                 //Generate a ray from cam location toward camera screen pixel (not normal)
-                r = new Ray(cameraLoc, screenLoc);
+                r = Ray(cameraLoc, screenLoc);
 
-            }
-
-            if (r == nullptr) {
-                throw; // Set specific exception later
             }
 
             // Render the ray and set image array pixels
-            Pixel pixel = scene.render(*r);
+            Pixel pixel = scene.render(r);
             image[idx] = pixel.r;
             image[idx + 1] = pixel.g;
             image[idx + 2] = pixel.b;
-
-            delete r;
         }
     }
 

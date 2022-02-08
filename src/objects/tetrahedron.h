@@ -21,29 +21,29 @@ public:
     Tetrahedron(Vector position, Material& mat) : SceneObj(position, mat) {
         tris = std::vector<Triangle>{
             *new Triangle(
-                *new Vector(0,0,-2),
-                *new Vector(0,-1,-4),
-                *new Vector(0,1,-4),
+                *new Vector(-1,0,0),
+                *new Vector(0,0,1),
+                *new Vector(0,1,0),
                 mat
             ),
-            *new Triangle(
-                *new Vector(0,0,-4),
-                *new Vector(0,1,-4),
-                *new Vector(1,0,-4),
+            * new Triangle(
+                *new Vector(-1,0,0),
+                *new Vector(0,0,1),
+                *new Vector(0,-1,0),
                 mat
             ),
-            *new Triangle(
-                *new Vector(0,0,-2),
-                *new Vector(0,1,-4),
-                *new Vector(1,0,-4),
+            * new Triangle(
+                *new Vector(0,1,0),
+                *new Vector(0,0,1),
+                *new Vector(0,-1,0),
                 mat
             ),
-            *new Triangle(
-                *new Vector(1,0,-4),
-                *new Vector(0,1,-4),
-                *new Vector(0,-1,-4),
+            * new Triangle(
+                *new Vector(0,1,0),
+                *new Vector(-1,0,0),
+                *new Vector(0,-1,0),
                 mat
-            )
+            ),
         };
         setPosition(position);
     }

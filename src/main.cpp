@@ -165,12 +165,12 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     // Create the image (RGB Array) to be displayed
-    const int width = 512; // keep it in powers of 2!
-    const int height = 512; // keep it in powers of 2!
+    const int width = 256; // keep it in powers of 2!
+    const int height = 256; // keep it in powers of 2!
 
     //Create a camera to render from
-    Point camOrigin(0, 0, 0);
-    Vector camVec(1, 0, 0); //At origin face toward positive x
+    Point camOrigin(5, 0, 0);
+    Vector camVec(1, 0, 0); 
     Camera camera(camOrigin, camVec, width, height);
     unsigned char* data = camera.renderImage();
 
@@ -190,14 +190,17 @@ int main()
     // -----------
     while (!glfwWindowShouldClose(window))
     {
-        // input
-        // -----
-        processInput(window, camera);
 
-        camera.cameraLoc.xCom = camera.cameraLoc.xCom + 0.1;
+        camera.cameraLoc.xCom = camera.cameraLoc.xCom + 0.05;
+        camera.cameraLoc.print();
+        //Slowly rotate the camera around to face where we started
         data = camera.renderImage();
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
+
+        // input
+        // -----
+        processInput(window, camera);
 
         // render
         // ------
