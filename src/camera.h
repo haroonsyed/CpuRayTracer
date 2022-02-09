@@ -13,9 +13,9 @@ private:
 
     int widthPix = 256; // keep it in powers of 2!
     int heightPix = 256; // keep it in powers of 2!
-	double f_len = 7; //Distance from ray origin to projection screen along looking direction
+	double f_len = 1; //Distance from ray origin to projection screen along looking direction
 	double aspectRatio = ((double)widthPix) / heightPix; //Used for fixing scaling
-	double width = 5; //Real world units
+	double width = 0.2; //Real world units
 	double height = width / aspectRatio; //Real world units
 
 	MODE mode = MODE::PERSPECTIVE;

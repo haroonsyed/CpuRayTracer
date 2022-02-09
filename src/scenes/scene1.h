@@ -7,33 +7,38 @@
 Scene scene1 = Scene (
      *new std::vector<SceneObj*>{
         new Sphere(
-            *new Vector(100, 0, 2),
+            *new Vector(60, -2, 0),
             2,
-            *new Material(0,0,255,0.9,1000)
+            *new Material(0,0,255,1, 300, 0)
         ),
         new Sphere(
-            *new Vector(30, 2, 0),
+            *new Vector(20, 1.5, 0),
             1,
             *new Material(0,255,0)
         ),
         new Tetrahedron(
-            *new Vector(40,-2.5,-1),
-            *new Material(255,0,0, 1, 100)
-        )
+            *new Vector(20,-1.5,-1),
+            *new Material(255,0,0, 0.5, 100, 0)
+        ),
+        // Reflective floor
+        new Triangle(
+            *new Vector(1000,0,-2),
+            *new Vector(-1000,-100,-2),
+            *new Vector(-1000,100,-2),
+            *new Material(255,255,255,0.4,0,0.6)
+        ),
     }
 ,
     *new std::vector<Light*>{
-        new Light( // Main light
-            *new Vector(0,40,0),
-            0.5
+        new Light( 
+            //Being far away simulates directional light
+            *new Vector(-3000,5000,1500),
+            0.9
         ),
-        new Light( // Back light
-            *new Vector(100,-20,0),
-            0.5
+        new Light( 
+            //Being far away simulates directional light
+            *new Vector(30,0,0.5),
+            0.3
         ),
-        //new Light( //Side light
-        //    *new Vector(0,0,5),
-        //    0.3
-        //)
     }
 );

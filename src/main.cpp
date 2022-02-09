@@ -167,11 +167,11 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     // Create the image (RGB Array) to be displayed
-    const unsigned int width = 720; // keep it in powers of 2!
-    const unsigned int height = 360; // keep it in powers of 2!
+    const unsigned int width = 256; // keep it in powers of 2!
+    const unsigned int height = 256; // keep it in powers of 2!
 
     //Create a camera to render from
-    Point camOrigin(5, 0, 0);
+    Point camOrigin(-40, 0, 1.2);
     Vector camVec(1, 0, 0); 
     Camera camera(camOrigin, camVec, width, height);
     unsigned char* data = camera.renderImage();
@@ -188,18 +188,23 @@ int main()
 
 
 
-
-    bool shouldRender = true;
+    bool singleShot = false;
+    bool shouldRender = false;
+    Vector startPosition = camera.cameraLoc;
+    Vector endPosition(70,1,-1);
+    Vector camMovementVec = Vector(endPosition - startPosition);
     int frame = 0;
-    int endFrame = 24 * 15;
+    int endFrame = 24 * 10;
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
         //Move camera
-        camera.cameraLoc.xCom = camera.cameraLoc.xCom + 0.05;
-        camera.cameraLoc.print();
-        data = camera.renderImage();
+        camera.cameraLoc = startPosition + camMovementVec * frame / endFrame;
+        //camera.cameraLoc.print();
+        if (!singleShot) {
+            data = camera.renderImage();
+        }
 
         if (shouldRender == true && frame <= endFrame) {
             std::vector<unsigned char> img_buffer;
@@ -218,12 +223,13 @@ int main()
             //if there's an error, display it
             if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
 
-            frame++;
         }
         else if (shouldRender == true) {
             // Stop the render when complete
             glfwSetWindowShouldClose(window, true);
         }
+
+        frame++;
 
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);

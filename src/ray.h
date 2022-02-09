@@ -10,6 +10,7 @@ private:
 public:
 	Vector origin;
 	Vector vector;
+	bool didHit;
 	Ray(Vector& origin, Vector& vector);
 };
 
