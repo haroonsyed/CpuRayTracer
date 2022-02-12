@@ -7,8 +7,8 @@
 class Scene
 {
 private:
-	int maxRecursions = 2;
-	bool enableShadows = false;
+	int maxRecursions = 3;
+	bool enableShadows = true;
 
 	//Background color
 	Pixel back1 = Pixel(100, 171, 255);

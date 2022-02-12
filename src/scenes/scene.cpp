@@ -41,15 +41,13 @@ Pixel Scene::render(Ray& ray, int depth) {
                 for (SceneObj* obj : objects) {
                     hit = obj->doesIntersect(toLight);
                     if (hit.didHit && hit.t > hitEpsilon) {
-                        p.r = p.g = p.b = 0;
-                        inShadow = true;
+
+                        // Just add ambient light
+                        mat.mirror = 0;
+                        mat.diffuse = 0;
+                        mat.specular = 0;
                         break;
                     }
-                }
-
-                // Remember to add ambient pass as well
-                if (inShadow) {
-                    return p;
                 }
             }
 

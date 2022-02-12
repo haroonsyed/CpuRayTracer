@@ -165,8 +165,17 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     // Create the image (RGB Array) to be displayed
-    const unsigned int width = 2560; 
-    const unsigned int height = 1440;
+
+    /*
+    Resolution list: 
+        Fast: 256x256
+        720: 1280x720
+        1080: 1920x1080
+        1440: 2560x1440
+    */
+
+    const unsigned int width = 1920; 
+    const unsigned int height = 1080;
 
     //Create a camera to render from
     Point camOrigin(-40, 0, 0.5);
