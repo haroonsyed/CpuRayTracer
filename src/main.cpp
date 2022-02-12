@@ -171,7 +171,7 @@ int main()
     const unsigned int height = 256; // keep it in powers of 2!
 
     //Create a camera to render from
-    Point camOrigin(-40, 0, 1.2);
+    Point camOrigin(-40, 0, 0.5);
     Vector camVec(1, 0, 0); 
     Camera camera(camOrigin, camVec, width, height);
     unsigned char* data = camera.renderImage();
@@ -191,7 +191,7 @@ int main()
     bool singleShot = false;
     bool shouldRender = false;
     Vector startPosition = camera.cameraLoc;
-    Vector endPosition(70,1,-1);
+    Vector endPosition(50,1,-1);
     Vector camMovementVec = Vector(endPosition - startPosition);
     int frame = 0;
     int endFrame = 24 * 10;
@@ -209,14 +209,17 @@ int main()
         if (shouldRender == true && frame <= endFrame) {
             std::vector<unsigned char> img_buffer;
 
-            for (int i = 0; i < width * height; i++) {
-                int idx = i * 3;
-                img_buffer.push_back(data[idx]);
-                img_buffer.push_back(data[idx+1]);
-                img_buffer.push_back(data[idx+2]);
-                img_buffer.push_back(255);
-            }
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
 
+                    int idx = ((height-i) * width + j) * 3;
+                    img_buffer.push_back(data[idx]);
+                    img_buffer.push_back(data[idx + 1]);
+                    img_buffer.push_back(data[idx + 2]);
+                    img_buffer.push_back(255);
+
+                }
+            }
 
             std::string name = std::to_string(frame) + ".png";
             unsigned error = lodepng::encode(name, img_buffer, width, height);

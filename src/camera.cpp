@@ -34,15 +34,6 @@ unsigned char* Camera::renderImage() {
 
     //Choose scene
     Scene scene = scene1;
-
-    //Background color
-    unsigned char backRed = 100;
-    unsigned char backGreen = 171;
-    unsigned char backBlue = 255;
-
-    unsigned char back2Red = 255;
-    unsigned char back2Green = 255;
-    unsigned char back2Blue = 255;
     
     Ray r = Ray(w,u); //Initialize ray with garbage data. Reused in double for loop though
 
@@ -73,17 +64,10 @@ unsigned char* Camera::renderImage() {
             Pixel pixel = scene.render(r, 0);
 
             int idx = (i * widthPix + j) * 3;
-            if (r.didHit) {
-                image[idx] = pixel.r;
-                image[idx + 1] = pixel.g;
-                image[idx + 2] = pixel.b;
-            }
-            else {
-                // Give a nice gradient background
-                image[idx] = backRed + (back2Red-backRed)*i/heightPix;
-                image[idx + 1] = backGreen + (back2Green - backGreen) * i / heightPix;
-                image[idx + 2] = backBlue + (back2Blue - backBlue) * i / heightPix;
-            }
+
+            image[idx] = pixel.r;
+            image[idx + 1] = pixel.g;
+            image[idx + 2] = pixel.b;
 
         }
     }

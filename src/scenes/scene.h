@@ -2,11 +2,17 @@
 #include <vector>
 #include "../lights/light.h"
 #include "../objects/sceneobj.h"
+#include "../pixel.h"
 
 class Scene
 {
 private:
 	int maxRecursions = 2;
+
+	//Background color
+	Pixel back1 = Pixel(100, 171, 255);
+	Pixel back2 = Pixel(255, 255, 255);
+
 public:
 	const double ambientCoeff;
 	Scene(std::vector<SceneObj*>& objects, std::vector<Light*>& lights);
