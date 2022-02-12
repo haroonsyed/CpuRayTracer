@@ -30,20 +30,20 @@ Scene scene1 = Scene (
             *new Vector(1000,0,-2),
             *new Vector(-1000,-100,-2),
             *new Vector(-1000,100,-2),
-            *new Material(0,0,20,0.15,100,0.1)
+            *new Material(200,200,200,0.15,100,0.1)
         ),
     }
 ,
     *new std::vector<Light*>{
         new Light( 
             //Being far away simulates directional light
-            *new Vector(-3000,5000,1500),
-            0.9
+            *new Vector(-3000,3000,2000),
+            1
         ),
-        new Light( 
-            //Light in the middle of objects
-            *new Vector(30,0,0.5),
-            0.2
-        ),
+        //new Light( 
+        //    //Light in the middle of objects
+        //    *new Vector(30,0,0.5),
+        //    0.2
+        //),
     }
 );

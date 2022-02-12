@@ -33,6 +33,26 @@ Pixel Scene::render(Ray& ray, int depth) {
             double diffuse = mat.diffuse * light->intensity * std::max(0., closest.normal.dot(l));
             double specular = mat.specular * 255 * light->intensity * std::max(0.0, std::pow(closest.normal.dot(h), mat.phongExp));
 
+            if (enableShadows) {
+                // Calculate the shadow rays
+                Ray toLight(closest.intersectionPoint, light->position);
+                toLight.vector.normalize();
+                bool inShadow = false;
+                for (SceneObj* obj : objects) {
+                    hit = obj->doesIntersect(toLight);
+                    if (hit.didHit && hit.t > hitEpsilon) {
+                        p.r = p.g = p.b = 0;
+                        inShadow = true;
+                        break;
+                    }
+                }
+
+                // Remember to add ambient pass as well
+                if (inShadow) {
+                    return p;
+                }
+            }
+
             // Reflective calculation
             Pixel ref(0, 0, 0);
             if (mat.mirror > 0 && depth < maxRecursions) {

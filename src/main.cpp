@@ -6,10 +6,8 @@
 //My libraries
 #include "camera.h"
 #include "math/point.h"
+#include "util/imgutil.h"
 
-// Img lib
-#include <iostream>
-#include "lodepng.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window, Camera& camera);
@@ -167,8 +165,8 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     // Create the image (RGB Array) to be displayed
-    const unsigned int width = 256; // keep it in powers of 2!
-    const unsigned int height = 256; // keep it in powers of 2!
+    const unsigned int width = 2560; 
+    const unsigned int height = 1440;
 
     //Create a camera to render from
     Point camOrigin(-40, 0, 0.5);
@@ -188,44 +186,34 @@ int main()
 
 
 
-    bool singleShot = false;
+    bool singleShot = true;
     bool shouldRender = false;
     Vector startPosition = camera.cameraLoc;
     Vector endPosition(50,1,-1);
     Vector camMovementVec = Vector(endPosition - startPosition);
+    ImgUtil imgUtil;
     int frame = 0;
     int endFrame = 24 * 10;
+
+    if (singleShot) {
+        imgUtil.saveFrame(data, width, height, "still_render");
+    }
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
         //Move camera
         camera.cameraLoc = startPosition + camMovementVec * frame / endFrame;
-        //camera.cameraLoc.print();
+
+        //Render frame
         if (!singleShot) {
             data = camera.renderImage();
         }
 
+        //Export frames for animation
         if (shouldRender == true && frame <= endFrame) {
-            std::vector<unsigned char> img_buffer;
-
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-
-                    int idx = ((height-i) * width + j) * 3;
-                    img_buffer.push_back(data[idx]);
-                    img_buffer.push_back(data[idx + 1]);
-                    img_buffer.push_back(data[idx + 2]);
-                    img_buffer.push_back(255);
-
-                }
-            }
-
-            std::string name = std::to_string(frame) + ".png";
-            unsigned error = lodepng::encode(name, img_buffer, width, height);
-            //if there's an error, display it
-            if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
-
+            imgUtil.saveFrame(data, width, height, std::to_string(frame));
         }
         else if (shouldRender == true) {
             // Stop the render when complete
