@@ -175,11 +175,11 @@ int main()
         1440: 2560x1440
     */
 
-    const unsigned int width = 1024; 
-    const unsigned int height = 1024;
+    const unsigned int width = 2560; 
+    const unsigned int height = 1440;
 
     //Create a camera to render from
-    Point camOrigin(-40, 5, 0);
+    Point camOrigin(-40, 0, 0);
     Vector camVec(1, 0, 0); 
     Camera camera(camOrigin, camVec, width, height);
     auto start = std::chrono::high_resolution_clock::now();
