@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "math/point.h"
 #include "util/imgutil.h"
+#include <chrono>
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -174,14 +175,17 @@ int main()
         1440: 2560x1440
     */
 
-    const unsigned int width = 1920; 
-    const unsigned int height = 1080;
+    const unsigned int width = 1024; 
+    const unsigned int height = 1024;
 
     //Create a camera to render from
-    Point camOrigin(-40, 0, 0.5);
+    Point camOrigin(-40, 5, 0);
     Vector camVec(1, 0, 0); 
     Camera camera(camOrigin, camVec, width, height);
-    unsigned char* data = camera.renderImage();
+    auto start = std::chrono::high_resolution_clock::now();
+    unsigned char* data = camera.renderThreaded();
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::cout << "Time to render a frame: " << (finish - start).count()/1000000 << " ms" << std::endl;
 
     if (data)
     {
@@ -198,7 +202,7 @@ int main()
     bool singleShot = true;
     bool shouldRender = false;
     Vector startPosition = camera.cameraLoc;
-    Vector endPosition(50,1,-1);
+    Vector endPosition(-20,-5,-1);
     Vector camMovementVec = Vector(endPosition - startPosition);
     ImgUtil imgUtil;
     int frame = 0;
@@ -217,7 +221,7 @@ int main()
 
         //Render frame
         if (!singleShot) {
-            data = camera.renderImage();
+            data = camera.renderThreaded();
         }
 
         //Export frames for animation

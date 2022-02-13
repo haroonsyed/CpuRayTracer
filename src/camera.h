@@ -1,6 +1,7 @@
 #pragma once
 #include "math/vector.h"
-#include "math/point.h"
+#include "scenes/scene1.h"
+#include <thread>
 
 class Camera
 {
@@ -18,9 +19,9 @@ private:
 	double width = 0.2; //Real world units
 	double height = width / aspectRatio; //Real world units
 
+	int threadCount = std::thread::hardware_concurrency();
+
 	MODE mode = MODE::PERSPECTIVE;
-
-
 
 public:
 	Vector cameraLoc;
@@ -30,7 +31,8 @@ public:
 	Camera(Vector&, Vector&, int, int);
 	~Camera();
 
-	unsigned char* renderImage();
+	unsigned char* renderThreaded();
+	void renderImage(int threadNumber, Vector&, Vector& , Vector& , Vector& );
 	void changePerspective();
 
 };

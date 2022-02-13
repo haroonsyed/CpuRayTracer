@@ -1,5 +1,4 @@
 #include "camera.h"
-#include "scenes/scene1.h"
 
 Camera::Camera(Vector& cameraLoc, Vector& cameraVec, int widthPix, int heightPix) :cameraLoc{ 0,0,0 }, viewDirection{1,0,0} {
     this->cameraLoc = cameraLoc;
@@ -19,25 +18,48 @@ Camera::~Camera() {
     }
 }
 
-unsigned char* Camera::renderImage() {    
+unsigned char* Camera::renderThreaded() {
+
     // Determine the screen origin
-    Vector sOrigin =  f_len * viewDirection + cameraLoc;
+    Vector sOrigin = f_len * viewDirection + cameraLoc;
     //Determine screen plane
-    Vector w = -1*viewDirection;
+    Vector w = -1 * viewDirection;
     Vector u = up.cross(w).normalize();
     Vector v = w.cross(u).normalize();
-    //Determine left, right, top, bottom edges of the screen
-    Vector sLeft = sOrigin - u * (width / 2);
-    Vector sRight = sOrigin + u * (width / 2);
-    Vector sTop = sOrigin + v * (height / 2);
-    Vector sBottom = sOrigin - v * (height / 2);
 
-    //Choose scene
-    Scene scene = scene1;
+    //Create n threads
+    std::vector<std::thread> threadPool;
+    for (int i = 0; i < threadCount; i++) {
+        threadPool.push_back(
+            std::thread(
+                &Camera::renderImage,
+                this,
+                i,
+                std::ref(sOrigin),
+                std::ref(u),
+                std::ref(v),
+                std::ref(w)
+            )
+        );
+    }
+
+    // Wait for threads to complete work
+    for (std::thread &t : threadPool) {
+        t.join();
+    }
+
+    return image;
+}
+
+// ThreadNumber starts at 0
+//Todo: reduce paramater list size by moving to private property
+void Camera::renderImage(int threadNumber, Vector& sOrigin,Vector& u,Vector& v,Vector& w) {    
     
     Ray r = Ray(w,u); //Initialize ray with garbage data. Reused in double for loop though
+    int startHeight = (heightPix/threadCount) * threadNumber;
+    int endHeight = (heightPix / threadCount) * (threadNumber+1);
 
-    for (int i = 0; i < heightPix; i++)
+    for (int i = startHeight; i < endHeight; i++)
     {
         for (int j = 0; j < widthPix; j++)
         {
@@ -61,7 +83,7 @@ unsigned char* Camera::renderImage() {
             }
 
             // Render the ray and set image array pixels
-            Pixel pixel = scene.render(r, 0);
+            Pixel pixel = scene1.render(r, 0);
 
             int idx = (i * widthPix + j) * 3;
 
@@ -71,8 +93,6 @@ unsigned char* Camera::renderImage() {
 
         }
     }
-
-    return image;
 }
 
 void Camera::changePerspective() {

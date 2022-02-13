@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
 #include "../lights/light.h"
-#include "../objects/sceneobj.h"
+#include "../objects/sphere.h"
+#include "../objects/tetrahedron.h"
 #include "../pixel.h"
 
 class Scene
