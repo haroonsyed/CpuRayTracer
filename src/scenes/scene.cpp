@@ -30,26 +30,28 @@ Pixel Scene::render(Ray& ray, int depth) {
         for (Light* light : lights) {
             Vector l = Vector(closest.intersectionPoint, light->position).normalize();
             Vector h = ((-1 * ray.vector) + l).normalize();
-            double diffuse = mat.diffuse * light->intensity * std::max(0., closest.normal.dot(l));
-            double specular = mat.specular * 255 * light->intensity * std::max(0.0, std::pow(closest.normal.dot(h), mat.phongExp));
 
+            bool inShadow = false;
             if (enableShadows) {
                 // Calculate the shadow rays
-                Ray toLight(closest.intersectionPoint, light->position);
-                toLight.vector.normalize();
-                bool inShadow = false;
+                Ray toLight = Ray(closest.intersectionPoint, l);
                 for (SceneObj* obj : objects) {
                     hit = obj->doesIntersect(toLight);
                     if (hit.didHit && hit.t > hitEpsilon) {
 
                         // Just add ambient light
-                        mat.mirror = 0;
-                        mat.diffuse = 0;
-                        mat.specular = 0;
+                        inShadow = true;
                         break;
                     }
                 }
             }
+
+            if (inShadow) {
+                continue;
+            }
+
+            double diffuse = mat.diffuse * light->intensity * std::max(0., closest.normal.dot(l));
+            double specular = mat.specular * 255 * light->intensity * std::max(0.0, std::pow(closest.normal.dot(h), mat.phongExp));
 
             // Reflective calculation
             Pixel ref(0, 0, 0);
@@ -60,15 +62,22 @@ Pixel Scene::render(Ray& ray, int depth) {
                 ref = render(recRay, depth + 1);
             }
 
-            p.r = std::min(p.r + mat.mirror*ref.r + mat.r * (diffuse + ambientCoeff) + specular, 255.);
-            p.g = std::min(p.g + mat.mirror*ref.g + mat.g * (diffuse + ambientCoeff) + specular, 255.);
-            p.b = std::min(p.b + mat.mirror*ref.b + mat.b * (diffuse + ambientCoeff) + specular, 255.);
+            p.r = std::min(p.r + mat.mirror*ref.r + mat.r * (diffuse) + specular, 255.);
+            p.g = std::min(p.g + mat.mirror*ref.g + mat.g * (diffuse) + specular, 255.);
+            p.b = std::min(p.b + mat.mirror*ref.b + mat.b * (diffuse) + specular, 255.);
+            
+
         }
     }
     else {
         // Give a background color of sky-blue
-        p = Pixel(135, 206, 235);
+        return Pixel(135, 206, 235);
     }
+
+    // Add ambient
+    p.r = std::min(p.r + mat.r * (ambientCoeff), 255.);
+    p.g = std::min(p.g + mat.g * (ambientCoeff), 255.);
+    p.b = std::min(p.b + mat.b * (ambientCoeff), 255.);
 
     return p;
 }

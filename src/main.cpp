@@ -175,13 +175,14 @@ int main()
         1440: 2560x1440
     */
 
-    const unsigned int width = 2560; 
-    const unsigned int height = 1440;
+    const unsigned int width = 1920; 
+    const unsigned int height = 1080;
 
     //Create a camera to render from
-    Point camOrigin(-40, 0, 0);
-    Vector camVec(1, 0, 0); 
+    Point camOrigin(-40, 0, 10);
+    Vector camVec(camOrigin, Point(20,0,0)); 
     Camera camera(camOrigin, camVec, width, height);
+    //camera.changePerspective(); START IN ORTHOGRAPHICS VIEW (useful for single shot mode)
     auto start = std::chrono::high_resolution_clock::now();
     unsigned char* data = camera.renderThreaded();
     auto finish = std::chrono::high_resolution_clock::now();
@@ -222,16 +223,17 @@ int main()
         //Render frame
         if (!singleShot) {
             data = camera.renderThreaded();
+        } else {
+            //Export frames for animation
+            if (shouldRender == true && frame <= endFrame) {
+                imgUtil.saveFrame(data, width, height, std::to_string(frame));
+            }
+            else if (shouldRender == true) {
+                // Stop the render when complete
+                glfwSetWindowShouldClose(window, true);
+            }
         }
 
-        //Export frames for animation
-        if (shouldRender == true && frame <= endFrame) {
-            imgUtil.saveFrame(data, width, height, std::to_string(frame));
-        }
-        else if (shouldRender == true) {
-            // Stop the render when complete
-            glfwSetWindowShouldClose(window, true);
-        }
 
         frame++;
 

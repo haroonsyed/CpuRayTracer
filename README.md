@@ -73,8 +73,54 @@ Orthographic View:
 Notice how the blue ball, which has a radius twice that of the green ball appears similar in size in perspective view. But in orthographic view the parallel rays show the size difference. Also notice the floor disappears since it is in the same plane as the viewing rays, which causes infinite solutions and is treated as a non-hit (infinitely small edge to process). However these are still visible in the mirror ball reflections.
 
 ### Multiple lighting conditions possible
+The examples so far have featured a directional light. 
+Now let's try to simulate a point light by placing the light in the middle of all the objects:
+![Point_Light](docs/point_light.png)
+We can see clearly that the shadows and lighting orientation are relative to the direction of the light and not the same for each object. What should be noted is that the point light as implemented does not decrease in strength with distance, although this would be simple to implement.
 
+The ray tracer supports an arbitrary number of light, given the hardware capacity. Now let's see the previous render with a directional light:
+![Multiple_Lights](docs/multi_light.png)
+Note the double specular reflection on the blue ball. The increased brightness of the scene. The second shadows (all facing the same way), but smaller since the light is higher up. Also note how overlapping shadows correctly become even darker.
 
+All aspects of the program are configurable, for example shadows can be enabled or disabled with the enableShadows boolean of scene.h. Relfections can be enabled or disabled with the maxRecursions value located there as well. Lights themselves can have varying intensities upon instantiation. And materials can be composed of different properties as well. Below are a couple different scenarios demonstrating this:
+
+Diffuse Pass
+![Diffuse_Pass](docs/diffuse_pass.png)
+
+Specualar Pass
+![Specular_Pass](docs/specular_pass.png)
+
+Just Ambient Light
+![Ambient_Pass](docs/ambient_pass.png)
+
+No Shadows
+![No_Shadows](docs/no_shadow.png)
+
+No reflections. Note how the sky color is missing from the floor as well.
+![No_Reflections](docs/no_reflections.png)
+
+### Other Program features
+
+MULTI-THREADING:<br>
+The program features multithreading, and automatically uses the maximum number of threads available on the client. On my i5 8250u various timings are listed below:
+<br>
+| Thread Count | Time (ms) |
+| ------------ | --------- |
+| 1 | 6610 |
+| 4 | 3628 |
+| 5 | 2957 |
+| 6 | 2544 |
+| 7 | 2232 |
+| 8 | 1768 | 
+| 9 | 1593 | 
+| 16| 809  |
+One can see that the program scales well with processing power, as it should since all operations are disconnected from one another. However I suspect my multithreading implementation is not perfect, since my cpu has 8 cores and the additional threads past that continue to give performance gains. Further investigation is required.
+
+MATHLIB:<br>
+A basic math library was created for this project (src/math). I understand it is slow compared to using asm and sse instructions, but it was a good exercise for refreshing linear algebra knowledge.
+
+TESTS:<br>
+Continuous integration with github actions has been implemented. Tests were written for most features of the mathematics library. No tests were written for the ray tracing itself, as I was not sure how to do this other than visually. My initial idea was to have a verified visual image to compare against with tests, but the inevitable new features (and possible floating point variations) made this unsuitable.
 
 <br>
 
