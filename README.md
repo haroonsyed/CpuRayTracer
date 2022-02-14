@@ -1,6 +1,7 @@
 # CpuRayTracer
 
 ## Made in CAP4730: Computer Graphics at the University of Florida
+### Under Dr. Aleirza Entezari
 
 ![Render Example](./docs/still_render.png)
 
@@ -16,6 +17,17 @@
 - Export individual frames or interpolate between two points with animation
 - Real time viewport
 - Configurable background, resolution and recursion depth
+
+### Technologies Used
+- GLFW
+- OPENGL
+- VCPKG
+- Catch2
+- C++
+- lodepng
+- Fundamentals of Computer Graphics 3rd Edition
+- WSL2
+- CMAKE
 
 ### Compilation Instructions
 **Windows**
@@ -122,7 +134,46 @@ A basic math library was created for this project (src/math). I understand it is
 TESTS:<br>
 Continuous integration with github actions has been implemented. Tests were written for most features of the mathematics library. No tests were written for the ray tracing itself, as I was not sure how to do this other than visually. My initial idea was to have a verified visual image to compare against with tests, but the inevitable new features (and possible floating point variations) made this unsuitable.
 
+MODES: <br>
+`singleshot`:<br>
+ Takes a single frame from the current camera location, does not aniamte. And saves the frame to an image in the directory called `still_render.png`. <br>
+`shouldRender`: <br>
+Interpolates the camera position from startPosition to endPosition. Saves each from as `frameN.png` which can be assembled into a video format later. The framerate and duration can be set as well.
+
 <br>
+
+### Animations
+Please see links below<br>
+https://youtu.be/vvICc10feRQ
+
+
+### Program Structure
+![Files](docs/files.png)
+<br>
+The entrypoint to the program is main.cpp, which includes basic code to setup a cross platform window. Also included here is a pre-processor statement for tests to run using the catch2 library. 
+
+<br>
+main creates a camera of the specified resolution, which then calculates the screen coordinates and instantiates a scene. The camera then generates rays and passes it to the scene `render` function, which loops thorugh all lights and objects of the scene (uses inheritance for a generalized interface) and returns a pixel of the correct color to assign to the data array. The camera then returns the data array to the scene.
+
+<br>
+
+### Outside Help
+I mainly relied on the textbook for my implementation (made tweaks as I felt)
+The main thing I went to outside help for was to understand (not for implementation) how the ray triangle intersection worked. To my delight I came across a channel called [Sebastian Lague](https://www.youtube.com/channel/UCmtyQOKKmrMVaKuRXz02jbQ) with this video with visual animations of what the vector math is doing: <br>
+https://www.youtube.com/watch?v=HYAgJN3x4GA
+<br>Although I do not think the  technique in the textbook with barycentric  coordinates is the same it is still helpful.
+
+## Assignment Requriements Checklist:
+| Feature | Status | Extra Desc. |
+| ---------------------------------- | --------- | ------------------ |
+| Solving ray-object intersection problem | :white_check_mark: | |
+| Add ambient/diffuse/specualr shading | :white_check_mark: | |
+| Glazed (mirror) surface | :white_check_mark: | |
+| Create a small aniamtion | :white_check_mark: | |
+| Add a key to switch perspective | :white_check_mark: | |
+| "Advanced" Feature: Multithreading & Shadows | :white_check_mark: | Possible problem with threading implementation leaving more performance on the table. |
+| Documentation | :white_check_mark: | | 
+
 
 ## DISCLAIMER
 THIS IS ONLY FOR DEMONSTRATION PURPOSES AND IS NOT FOR OTHER STUDENTS TAKING THE CLASS. 
