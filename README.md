@@ -1,4 +1,5 @@
 # CpuRayTracer
+[Link to Repository](https://github.com/haroonsyed/CpuRayTracer)
 
 ## Made in CAP4730: Computer Graphics at the University of Florida
 ### Under Dr. Aleirza Entezari
@@ -34,12 +35,12 @@
 1. Clone this repo using <br>
 `git clone https://github.com/haroonsyed/CpuRayTracer.git --recursive`
 2. Install cmake
-3. Open the folder containing repo in visual studio
+3. Open the folder containing repo in visual studio, run main.cpp
 
     or
 
-3. Run `cmake ..`
-4. Open generated solution in visual studio and run main.cpp
+3. CD into build folder and run `cmake ..`
+4. Open generated solution (in build folder) in visual studio and run main.cpp
 
 **Linux**
 1. Clone this repo using <br>
