@@ -175,6 +175,9 @@ https://www.youtube.com/watch?v=HYAgJN3x4GA
 | "Advanced" Feature: Multithreading & Shadows | :white_check_mark: | Possible problem with threading implementation leaving more performance on the table. |
 | Documentation | :white_check_mark: | | 
 
+## Future Improvements
+Aside from adding more features like transparency, bloom, proper point lights/spot lights, texture mapping, I mainly want to focus on the architecture of the code. I was trying to focus on learning ray tracing, and in the process wrote code that frankly abuses static and makes too many variables public. The class dependency and organization is also a mess (for example the camera owns a scene instead of the scene owning a camera) and I ran into several issues with circular dependencies. In the beginning I thought this would be okay, but as the code base grew I realized that sticking to proper software engineering principles from the start is better, and I will remember this in future projects.
+
 
 ## DISCLAIMER
 THIS IS ONLY FOR DEMONSTRATION PURPOSES AND IS NOT FOR OTHER STUDENTS TAKING THE CLASS. 
